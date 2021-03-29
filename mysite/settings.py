@@ -25,7 +25,7 @@ SECRET_KEY = 'c_g8i5%9q39n_x0u423aq1eo1u_j82&m818db+st#ix8+k^u@-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost','*']
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mysite',
+    'User',
     'rest_framework',
 ]
 
@@ -78,7 +79,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'course-parter-macher',
+        'NAME': 'myDataBase',
         'USER': 'root',
         'PASSWORD': 'qwerty357',
         'HOST': '34.69.116.84',
