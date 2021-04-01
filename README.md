@@ -1,1 +1,1 @@
-# Course_Partner_Matcher
+# UIUC-Course-Partner-Macher
