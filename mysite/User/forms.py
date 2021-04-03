@@ -4,4 +4,4 @@ from .models import Enrollment
 class Form(ModelForm):
     class Meta:
         model = Enrollment
-        fields = '__all__'
+        fields = ['NetId', 'CRN']
