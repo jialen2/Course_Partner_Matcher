@@ -21,6 +21,10 @@ def home(request):
     enrollments = Enrollment.objects.all()
     return render(request, 'User/dashboard.html', {'enrollments':enrollments})
 
+def courses(request):
+    courses = Courses.objects.all()
+    return render(request, 'User/courses.html', {'courses':courses})
+
 def create(request):
     form = Form()
     if request.method == "POST":
