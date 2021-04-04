@@ -40,4 +40,4 @@ def logininfoCreate(request):
             return('/logininfo')
 
     context = {'form': form}
-    return render(request, 'User/logininfo_forms.html', context)
+    return render(request, 'User/forms.html', context)
