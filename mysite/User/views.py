@@ -6,7 +6,8 @@ from User.models import Enrollment
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import *
-from .forms import Form
+from .forms import EnrollmentForm
+from .forms import CoursesForm
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -19,7 +20,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 def home(request):
     enrollments = Enrollment.objects.all()
-    return render(request, 'User/dashboard.html', {'enrollments':enrollments})
+    return render(request, 'User/enrollment.html', {'enrollments':enrollments})
 
 def courses(request):
     courses = Courses.objects.all()
@@ -29,11 +30,23 @@ def logininfo(request):
     loginInfoContent = LoginInfo.objects.all()
     return render(request, 'User/logininfo.html', {'logininfo':loginInfoContent})
 
-def create(request):
-    form = Form()
+def createEnrollment(request):
+    form = EnrollmentForm()
     if request.method == "POST":
         #print('Printing POST:', request.POST)
-        form = Form(request.POST)
+        form = EnrollmentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return ('/home')
+
+    context = {'form': form}
+    return render(request, 'User/forms.html', context)
+
+def createCourses(request):
+    form = CoursesForm()
+    if request.method == "POST":
+        #print('Printing POST:', request.POST)
+        form = CoursesForm(request.POST)
         if form.is_valid():
             form.save()
             return ('/home')

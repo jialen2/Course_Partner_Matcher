@@ -3,12 +3,12 @@ from .models import Enrollment
 from .models import Courses
 from .models import LoginInfo
 
-class Form(ModelForm):
+class EnrollmentForm(ModelForm):
     class Meta:
         model = Enrollment
         fields = ['NetId', 'CRN']
 
-class Courses(ModelForm):
+class CoursesForm(ModelForm):
     class Meta:
         model = Courses
         fields = ['CRN', 'CourseTitle', 'CourseNumber', 'Department', 'Section', 'ScheduleType', 'Instructor', 'MeetingTime']
