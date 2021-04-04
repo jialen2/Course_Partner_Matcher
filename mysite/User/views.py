@@ -1,22 +1,13 @@
 #from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
-from User.serializers import UserSerializer
-from User.models import Enrollment
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import EnrollmentForm
 from .forms import CoursesForm
+from .forms import LoginInfoForm
 
-
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = Enrollment.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 def home(request):
     enrollments = Enrollment.objects.all()
@@ -26,9 +17,9 @@ def courses(request):
     courses = Courses.objects.all()
     return render(request, 'User/courses.html', {'courses':courses})
 
-def logininfo(request):
-    loginInfoContent = LoginInfo.objects.all()
-    return render(request, 'User/logininfo.html', {'logininfo':loginInfoContent})
+def logininfoViewSet(request):
+    logininfo_queryset = LoginInfo.objects.all()
+    return render(request, 'User/logininfo.html', {'logininfo':logininfo_queryset})
 
 def createEnrollment(request):
     form = EnrollmentForm()
@@ -50,6 +41,17 @@ def createCourses(request):
         if form.is_valid():
             form.save()
             return ('/home')
+
+    context = {'form': form}
+    return render(request, 'User/forms.html', context)
+
+def logininfoCreate(request):
+    form = LoginInfoForm()
+    if request.method == "POST":
+        form = LoginInfoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return('/logininfo')
 
     context = {'form': form}
     return render(request, 'User/forms.html', context)
