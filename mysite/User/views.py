@@ -28,7 +28,7 @@ def createEnrollment(request):
         form = EnrollmentForm(request.POST)
         if form.is_valid():
             form.save()
-            return ('/home')
+            return redirect('/home')
 
     context = {'form': form}
     return render(request, 'User/forms.html', context)
@@ -40,7 +40,7 @@ def createCourses(request):
         form = CoursesForm(request.POST)
         if form.is_valid():
             form.save()
-            return ('/home')
+            return redirect('/home')
 
     context = {'form': form}
     return render(request, 'User/forms.html', context)
@@ -51,7 +51,7 @@ def logininfoCreate(request):
         form = LoginInfoForm(request.POST)
         if form.is_valid():
             form.save()
-            return('/logininfo')
+            return redirect('/logininfo')
 
     context = {'form': form}
     return render(request, 'User/forms.html', context)
