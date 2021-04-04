@@ -1,0 +1,43 @@
+{% extends 'User/main.html'%}
+
+{% block content %}
+
+<hr>
+<div class="row">
+    <div class="col-md-1.5 offset-md-1">
+        <div class="card card-body">
+            <form method="get">
+            <button class="btn btn-primary" type="submit"> Search </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="row">
+    <div class="col-md-8 offset-md-1">
+        <h5>Enrollment</h5>
+        <div class = "card card-body">
+            <a class='btn btn-primary btn-sm btn-block' href="{% url 'create' %}">Add Login Info</a>
+            <table class="table table-sm">
+                <tr>
+                    <th></th>
+                    <th>AccountName</th>
+                    <th>Password</th>
+                </tr>
+                {% for i in logininfo %}
+                    <tr>
+                        <th></th>
+                        <td>{{i.AccountName}}</td>
+                        <td>{{i.Password}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+<br>
+
+{% endblock %}

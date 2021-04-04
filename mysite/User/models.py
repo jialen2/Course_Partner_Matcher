@@ -11,3 +11,22 @@ class Enrollment(models.Model):
 
 #    def __str__(self):
 #        return self.NetId
+
+class Courses(models.Model):
+    CRN = models.CharField(max_length = 10, primary_key = True)
+    CourseTitle = models.CharField(max_length = 100)
+    CourseNumber = models.CharField(max_length = 50)
+    Department = models.CharField(max_length = 100)
+    Section = models.CharField(max_length = 50)
+    ScheduleType = models.CharField(max_length = 50)
+    Instructor = models.CharField(max_length = 50)
+    MeetingTime = models.CharField(max_length = 50)
+    class Meta:
+        db_table = "Courses"
+
+class LoginInfo(models.Model):
+    AccountName = models.CharField(max_length=30, primary_key=True)
+    Password = models.CharField(max_length=100)
+    class Meta:
+        db_table = "LoginInfo"
+
