@@ -7,7 +7,7 @@ from .models import *
 from .forms import EnrollmentForm
 from .forms import CoursesForm
 from .forms import LoginInfoForm
-
+from .filters import LoginInfoFilter
 
 def home(request):
     enrollments = Enrollment.objects.all()
@@ -19,7 +19,10 @@ def courses(request):
 
 def logininfoViewSet(request):
     logininfo_queryset = LoginInfo.objects.all()
-    return render(request, 'User/logininfo.html', {'logininfo':logininfo_queryset})
+    myFilter = LoginInfoFilter(request.GET, queryset=logininfo_queryset)
+    logininfo_queryset = myFilter.qs
+    context = {'logininfo': logininfo_queryset, 'myFilter': myFilter}
+    return render(request, 'User/logininfo.html', context)
 
 def createEnrollment(request):
     form = EnrollmentForm()
