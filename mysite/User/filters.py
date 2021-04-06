@@ -6,3 +6,8 @@ class LoginInfoFilter(django_filters.FilterSet):
         model = LoginInfo
         fields = ['AccountName']
 
+class StudentsFilter(django_filters.FilterSet):
+    class Meta:
+        model = Students
+        fields = ['NetId']
+

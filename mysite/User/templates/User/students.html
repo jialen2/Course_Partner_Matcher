@@ -1,0 +1,57 @@
+{% extends 'User/main.html'%}
+
+{% block content %}
+<hr>
+<div class="row">
+    <div class="col-md-1.5 offset-md-1">
+        <div class="card card-body">
+            <form method="get">
+                {{myFilter.form}}
+            <button class="btn btn-primary" type="submit"> Search </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <h5>Students</h5>
+        <div class = "card card-body">
+            <form method="POST">
+                <input type="text" id="netid">
+                <button type="submit" id="submit_button">Update Students</button>
+            </form>
+            <a class='btn btn-primary btn-sm btn-block' href="{% url 'students_create' %}">Add Students Info</a>
+            <table class="table table-sm">
+                <tr>
+                    <th></th>
+                    <th>NetId</th>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Preferred_Work_Time</th>
+                    <th>SchoolYear</th>
+                    <th>ContactInfo</th>
+                    <th>OtherInfo</th>
+                </tr>
+                {% for i in myFilter.qs %}
+                    <tr>
+                        <th></th>
+                        <td>{{i.NetId}}</td>
+                        <td>{{i.FirstName}}</td>
+                        <td>{{i.LastName}}</td>
+                        <td>{{i.Preferred_Work_Time}}</td>
+                        <td>{{i.SchoolYear}}</td>
+                        <td>{{i.ContactInfo}}</td>
+                        <td>{{i.OtherInfo}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+<br>
+
+{% endblock %}

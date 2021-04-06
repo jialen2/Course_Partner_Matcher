@@ -2,6 +2,7 @@ from django.forms import ModelForm
 from .models import Enrollment
 from .models import Courses
 from .models import LoginInfo
+from .models import Students
 
 class EnrollmentForm(ModelForm):
     class Meta:
@@ -17,3 +18,8 @@ class LoginInfoForm(ModelForm):
     class Meta:
         model = LoginInfo
         fields = ['AccountName', 'Password']
+
+class StudentsForm(ModelForm):
+    class Meta:
+        model = Students
+        fields = ['NetId', 'FirstName', 'LastName', 'Preferred_Work_Time', 'SchoolYear', 'ContactInfo', 'OtherInfo']

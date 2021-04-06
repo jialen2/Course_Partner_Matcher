@@ -30,3 +30,14 @@ class LoginInfo(models.Model):
     class Meta:
         db_table = "LoginInfo"
 
+class Students(models.Model):
+    NetId = models.CharField(max_length = 10, primary_key = True)
+    FirstName = models.CharField(max_length = 50)
+    LastName = models.CharField(max_length = 50)
+    Preferred_Work_Time = models.CharField(max_length = 50)
+    SchoolYear = models.CharField(max_length = 50)
+    ContactInfo = models.CharField(max_length = 255)
+    OtherInfo = models.CharField(max_length = 255)
+    class Meta:
+        db_table = "Students"
+
