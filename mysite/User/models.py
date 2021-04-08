@@ -30,6 +30,9 @@ class LoginInfo(models.Model):
     class Meta:
         db_table = "LoginInfo"
 
+    def __str__(self):
+        return self.AccountName
+
 class Students(models.Model):
     NetId = models.CharField(max_length = 10, primary_key = True)
     FirstName = models.CharField(max_length = 50)

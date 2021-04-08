@@ -94,3 +94,22 @@ def studentsCreate(request):
 
 #     context = {'form': form}
 #     return render(request, 'User/forms.html', context)
+
+def logininfoUpdate(request, pk):
+    currentInstance =  LoginInfo.objects.get(AccountName=pk)
+    form = LoginInfoForm(instance=currentInstance)
+    if request.method == "POST":
+        form = LoginInfoForm(request.POST, instance=currentInstance)
+        if form.is_valid():
+            form.save()
+            return redirect('/logininfo')
+    context = {'form': form}
+    return render(request, 'User/forms.html', context)
+
+def logininfoDelete(request, pk):
+    currentInstance =  LoginInfo.objects.get(AccountName=pk)
+    if request.method == "POST":
+        currentInstance.delete()
+        return redirect('/logininfo')
+    context = {'item': currentInstance}
+    return render(request, 'User/delete.html', context)

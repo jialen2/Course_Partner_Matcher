@@ -32,6 +32,8 @@
                         <th></th>
                         <td>{{i.AccountName}}</td>
                         <td>{{i.Password}}</td>
+                        <td><a class="btn btn-sm btn-info" href = "{% url 'logininfo_update' i.AccountName %}">Update</a></td>
+                        <td><a class="btn btn-sm btn-danger" href = "{% url 'logininfo_delete' i.AccountName %}">Delete</a></td>
                     </tr>
                 {% endfor %}
             </table>
