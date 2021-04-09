@@ -30,7 +30,6 @@
                 {% for i in enrollment %}
                     <tr>
                         <th></th>
-                        <td>{{i.id}}</td>
                         <td>{{i.NetId}}</td>
                         <td>{{i.CRN}}</td>
                         <td><a class="btn btn-sm btn-info" href = "{% url 'enrollment_update' NetId=i.NetId CRN=i.CRN %}">Update</a></td>
