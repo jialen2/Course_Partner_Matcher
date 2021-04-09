@@ -2,16 +2,23 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('home/', views.home),
-    path('courses/',views.coursesViewSet),
-    path('students/', views.StudentViewSet),
-    path('logininfo/', views.logininfoViewSet),
-    path('createEnrollment/', views.createEnrollment, name="createEnrollment"),
+    path('', views.enrollmentViewSet),
+    path('enrollment/', views.enrollmentViewSet),
+    path('enrollment_create/', views.enrollmentCreate, name="enrollment_create"),
+    path('enrollment_update/<str:NetId>/<str:CRN>', views.enrollmentUpdate, name="enrollment_update"),
+    path('enrollment_delete/<str:NetId>/<str:CRN>', views.enrollmentDelete, name="enrollment_delete"),
+
+    path('courses/', views.coursesViewSet),
     path('createCourses/', views.createCourses, name="createCourses"),
-    path('logininfo_create/', views.logininfoCreate, name="logininfo_create"),
+    path('courses_update/<str:pk>/', views.coursesUpdate, name='courses_update'),
+    path('courses_delete/<str:pk>/', views.coursesDelete, name='courses_delete'),
+
+    path('students/', views.StudentViewSet),
     path('students_create/', views.studentsCreate, name="students_create"),
+
+    path('logininfo/', views.logininfoViewSet),
+    path('logininfo_create/', views.logininfoCreate, name="logininfo_create"),
     path('logininfo_update/<str:pk>/', views.logininfoUpdate, name='logininfo_update'),
     path('logininfo_delete/<str:pk>/', views.logininfoDelete, name='logininfo_delete'),
-    path('courses_update/<str:pk>/', views.coursesUpdate, name='courses_update'),
-    path('courses_delete/<str:pk>/', views.coursesDelete, name='courses_delete')
+
 ]

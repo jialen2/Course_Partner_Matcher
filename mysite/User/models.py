@@ -9,8 +9,8 @@ class Enrollment(models.Model):
         db_table = "Enrollment"
         unique_together = (("NetId", "CRN"),)
 
-#    def __str__(self):
-#        return self.NetId
+    def __str__(self):
+        return self.NetId
 
 class Courses(models.Model):
     CRN = models.CharField(max_length = 10, primary_key = True)
@@ -23,7 +23,7 @@ class Courses(models.Model):
     MeetingTime = models.CharField(max_length = 50)
     class Meta:
         db_table = "Courses"
-    
+
     def __str__(self):
         return self.CRN
 
@@ -46,4 +46,3 @@ class Students(models.Model):
     OtherInfo = models.CharField(max_length = 255)
     class Meta:
         db_table = "Students"
-

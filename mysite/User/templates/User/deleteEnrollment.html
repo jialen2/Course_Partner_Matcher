@@ -3,9 +3,9 @@
 {% block content %}
 
 <p>Are you sure you want to delete "{{item}}"?</p>
-<form action="{% url 'courses_delete' item.CRN %}" method="POST">
+<form action="{% url 'enrollment_delete' NetId=item.NetId CRN=item.CRN %}" method="POST">
     {% csrf_token %}
-    <a class="btn btn-primary" href="/courses">Cancel</a>
+    <a class="btn btn-primary" href="/enrollment">Cancel</a>
     <button type="submit" class="btn btn-primary">Confirm</button>
 </form>
 
