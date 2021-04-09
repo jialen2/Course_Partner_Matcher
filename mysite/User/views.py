@@ -14,9 +14,9 @@ def home(request):
     enrollments = Enrollment.objects.all()
     return render(request, 'User/enrollment.html', {'enrollments':enrollments})
 
-def courses(request):
-    courses = Courses.objects.all()
-    return render(request, 'User/courses.html', {'courses':courses})
+# def courses(request):
+#     courses = Courses.objects.all()
+#     return render(request, 'User/courses.html', {'courses':courses})
 
 def students(request):
     students = Students.objects.all()
@@ -33,6 +33,13 @@ def StudentViewSet(request):
     myFilter = StudentsFilter(request.GET, queryset=Students.objects.all())
     context = {'myFilter': myFilter}
     return render(request, 'User/students.html', context)
+
+def coursesViewSet(request):
+    courses_queryset = Courses.objects.all()
+    myFilter = CoursesFilter(request.GET, queryset=courses_queryset)
+    courses_queryset = myFilter.qs
+    context = {'courses': courses_queryset, 'myFilter': myFilter}
+    return render(request, 'User/courses.html', context)
 
 def createEnrollment(request):
     form = EnrollmentForm()
@@ -112,4 +119,23 @@ def logininfoDelete(request, pk):
         currentInstance.delete()
         return redirect('/logininfo')
     context = {'item': currentInstance}
-    return render(request, 'User/delete.html', context)
+    return render(request, 'User/deleteLoginInfo.html', context)
+
+def coursesUpdate(request, pk):
+    currentInstance =  Courses.objects.get(CRN=pk)
+    form = CoursesForm(instance=currentInstance)
+    if request.method == "POST":
+        form = CoursesForm(request.POST, instance=currentInstance)
+        if form.is_valid():
+            form.save()
+            return redirect('/courses')
+    context = {'form': form}
+    return render(request, 'User/forms.html', context)
+
+def coursesDelete(request, pk):
+    currentInstance = Courses.objects.get(CRN=pk)
+    if request.method == "POST":
+        currentInstance.delete()
+        return redirect('/logininfo')
+    context = {'item': currentInstance}
+    return render(request, 'User/deleteCourses.html', context)

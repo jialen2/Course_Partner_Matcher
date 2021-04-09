@@ -11,3 +11,7 @@ class StudentsFilter(django_filters.FilterSet):
         model = Students
         fields = ['NetId']
 
+class CoursesFilter(django_filters.FilterSet):
+    class Meta:
+        model = Courses
+        fields = ['CRN']

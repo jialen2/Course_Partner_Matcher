@@ -23,6 +23,9 @@ class Courses(models.Model):
     MeetingTime = models.CharField(max_length = 50)
     class Meta:
         db_table = "Courses"
+    
+    def __str__(self):
+        return self.CRN
 
 class LoginInfo(models.Model):
     AccountName = models.CharField(max_length=30, primary_key=True)
