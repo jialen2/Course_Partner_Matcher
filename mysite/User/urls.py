@@ -15,6 +15,7 @@ urlpatterns = [
 
     path('students/', views.StudentViewSet),
     path('students_create/', views.studentsCreate, name="students_create"),
+    path('students_query/', views.enrollment_advanced_query),
 
     path('logininfo/', views.logininfoViewSet),
     path('logininfo_create/', views.logininfoCreate, name="logininfo_create"),
