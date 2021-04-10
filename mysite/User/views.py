@@ -121,7 +121,6 @@ def coursesViewSet(request):
 def createCourses(request):
     form = CoursesForm()
     if request.method == "POST":
-        #print('Printing POST:', request.POST)
         form = CoursesForm(request.POST)
         if form.is_valid():
             form.save()
@@ -157,22 +156,12 @@ def advanced_query_2(request):
     data = Students.objects.raw("SELECT GROUP_CONCAT(c.CourseNumber) as result, s1.Preferred_Work_Time, s1.NetId FROM Students s1 NATURAL JOIN Enrollment e1 JOIN Courses c ON e1.CRN = c.CRN JOIN (SELECT s2.Preferred_Work_Time, e2.CRN, s2.NetId FROM Students s2 NATURAL JOIN Enrollment e2 WHERE s2.NetId = 'myrah3') as derived WHERE e1.CRN = derived.CRN and s1.NetId <> derived.NetId GROUP by s1.NetId Order by count(e1.CRN) DESC")
     return render(request, 'User/advanced_query_2.html', {'data':data})
 
-# def advanced_query_3_helper(request):
-#     form = Query3Form(request.POST or None)
-#     # if request.method == "POST":
-#     #     if form.is_valid():
-#     #         text = request.POST.get('your_netid')
-#     #         return render(request, 'User/advanced_query_3.html', {'text': text})
-#     return render(request, 'User/advanced_query_3_helper.html', {'form': form})
-
 def advanced_query_3_helper(request):
     form = Query3Form()
     if request.method == "POST":
-        #print('Printing POST:', request.POST)
         form = Query3Form(request.POST or None)
         if form.is_valid():
             text = request.POST.get('your_netid')
-            #return render(request, 'User/advanced_query_3.html/', {'text': text})
             return redirect("/advanced_query_3_helper/"+text)
     context = {'form': form}
     return render(request, 'User/advanced_query_3_helper.html', context)
