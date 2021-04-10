@@ -7,8 +7,10 @@ from .models import *
 from .forms import EnrollmentForm
 from .forms import CoursesForm
 from .forms import LoginInfoForm
+from .forms import Query3Form
 from .filters import *
 from .forms import StudentsForm
+
 
 def enrollmentViewSet(request):
     enrollment_queryset = Enrollment.objects.all()
@@ -155,10 +157,18 @@ def advanced_query_2(request):
     data = Students.objects.raw("SELECT GROUP_CONCAT(c.CourseNumber) as result, s1.Preferred_Work_Time, s1.NetId FROM Students s1 NATURAL JOIN Enrollment e1 JOIN Courses c ON e1.CRN = c.CRN JOIN (SELECT s2.Preferred_Work_Time, e2.CRN, s2.NetId FROM Students s2 NATURAL JOIN Enrollment e2 WHERE s2.NetId = 'myrah3') as derived WHERE e1.CRN = derived.CRN and s1.NetId <> derived.NetId GROUP by s1.NetId Order by count(e1.CRN) DESC")
     return render(request, 'User/advanced_query_2.html', {'data':data})
 
-def advanced_query_3(request):
+def advanced_query_3_helper(request):
+    form = Query3Form(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            text = request.POST.get('your_netid')
+            return render(request, 'User/advanced_query_3.html', {'text': text})
+    return render(request, 'User/advanced_query_3_helper.html', {'form': form})
+
+def advanced_query_3(request, input):
     data = Students.objects.raw("SELECT S.NetId, S.ContactInfo, S.OtherInfo, H.Department " +
                                 "FROM Students S NATURAL JOIN Home H " +
-                                "WHERE S.SchoolYear = 'Senior' AND H.Department IN (SELECT H1.Department FROM Home H1 WHERE H1.NetId = 'myrah3')")
+                                "WHERE S.SchoolYear = 'Senior' AND H.Department IN (SELECT H1.Department FROM Home H1 WHERE H1.NetId = " + input + " )")
     return render(request, 'User/advanced_query_3.html', {'data':data})
 
 def advanced_query_4(request):

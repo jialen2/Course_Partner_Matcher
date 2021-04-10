@@ -1,4 +1,6 @@
 from django.forms import ModelForm
+from django.forms import Form
+from django import forms
 from .models import Enrollment
 from .models import Courses
 from .models import LoginInfo
@@ -23,3 +25,6 @@ class StudentsForm(ModelForm):
     class Meta:
         model = Students
         fields = ['NetId', 'FirstName', 'LastName', 'Preferred_Work_Time', 'SchoolYear', 'ContactInfo', 'OtherInfo']
+
+class Query3Form(Form):
+    your_netid = forms.CharField(max_length=100)
