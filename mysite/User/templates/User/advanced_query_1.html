@@ -1,0 +1,22 @@
+{% extends 'User/main.html'%}
+
+{% block content %}
+
+<table class="table table-sm">
+    <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>numCourses</th>
+    </tr>
+    {% for i in data %}
+        <tr>
+            <th></th>
+            <td>{{i.Name}}</td>
+            <td>{{i.Department}}</td>
+            <td>{{i.numCourses}}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

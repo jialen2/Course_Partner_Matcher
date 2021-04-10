@@ -10,10 +10,6 @@ from .forms import LoginInfoForm
 from .filters import *
 from .forms import StudentsForm
 
-def enrollment_advanced_query(request):
-    data = Students.objects.raw("SELECT GROUP_CONCAT(c.CourseNumber) as result, s1.Preferred_Work_Time, s1.NetId FROM Students s1 NATURAL JOIN Enrollment e1 JOIN Courses c ON e1.CRN = c.CRN JOIN (SELECT s2.Preferred_Work_Time, e2.CRN, s2.NetId FROM Students s2 NATURAL JOIN Enrollment e2 WHERE s2.NetId = 'myrah3') as derived WHERE e1.CRN = derived.CRN and s1.NetId <> derived.NetId GROUP by s1.NetId Order by count(e1.CRN) DESC")
-    return render(request, 'User/enrollment_display.html', {'data':data})
-
 def enrollmentViewSet(request):
     enrollment_queryset = Enrollment.objects.all()
     myFilter = EnrollmentFilter(request.GET, queryset=enrollment_queryset)
@@ -151,24 +147,16 @@ def coursesDelete(request, pk):
     context = {'item': currentInstance}
     return render(request, 'User/deleteCourses.html', context)
 
+def advanced_query_1(request):
+    data = Instructors.objects.raw("SELECT I.id, I.Name, I.Department, COUNT(distinct C.CourseTitle) AS numCourses FROM Instructors I JOIN Courses C ON I.Name = C.Instructor and I.Department=C.Department GROUP BY I.Name, I.Department ORDER BY numCourses DESC;")
+    return render(request, 'User/advanced_query_1.html', {'data':data})
 
+def advanced_query_2(request):
+    data = Students.objects.raw("SELECT GROUP_CONCAT(c.CourseNumber) as result, s1.Preferred_Work_Time, s1.NetId FROM Students s1 NATURAL JOIN Enrollment e1 JOIN Courses c ON e1.CRN = c.CRN JOIN (SELECT s2.Preferred_Work_Time, e2.CRN, s2.NetId FROM Students s2 NATURAL JOIN Enrollment e2 WHERE s2.NetId = 'myrah3') as derived WHERE e1.CRN = derived.CRN and s1.NetId <> derived.NetId GROUP by s1.NetId Order by count(e1.CRN) DESC")
+    return render(request, 'User/advanced_query_2.html', {'data':data})
 
-
-
-
-
-
-# def studentsUpdate(request, netid):
-#     print("start")
-#     print(netid)
-#     print("end")
-#     form = StudentsForm()
-#     if request.method == "POST":
-#         found_student = get_object_or_404(Students, NetId = netid)
-#         form = StudentsForm(request.POST, found_student)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('/home')
-
-#     context = {'form': form}
-#     return render(request, 'User/forms.html', context)
+def advanced_query_3(request):
+    data = Students.objects.raw("SELECT S.NetId, S.ContactInfo, S.OtherInfo, H.Department " +
+                                "FROM Students S NATURAL JOIN Home H " +
+                                "WHERE S.SchoolYear = 'Senior' AND H.Department IN (SELECT H1.Department FROM Home H1 WHERE H1.NetId = 'myrah3')")
+    return render(request, 'User/advanced_query_3.html', {'data':data})

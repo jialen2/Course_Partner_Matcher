@@ -46,3 +46,10 @@ class Students(models.Model):
     OtherInfo = models.CharField(max_length = 255)
     class Meta:
         db_table = "Students"
+
+class Instructors(models.Model):
+    Name = models.CharField(max_length = 50)
+    Department = models.CharField(max_length = 100)
+    class Meta:
+        db_table = "Instructors"
+        unique_together = (("Name", "Department"),)

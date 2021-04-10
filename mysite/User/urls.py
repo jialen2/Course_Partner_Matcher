@@ -15,11 +15,13 @@ urlpatterns = [
 
     path('students/', views.StudentViewSet),
     path('students_create/', views.studentsCreate, name="students_create"),
-    path('students_query/', views.enrollment_advanced_query),
 
     path('logininfo/', views.logininfoViewSet),
     path('logininfo_create/', views.logininfoCreate, name="logininfo_create"),
     path('logininfo_update/<str:pk>/', views.logininfoUpdate, name='logininfo_update'),
     path('logininfo_delete/<str:pk>/', views.logininfoDelete, name='logininfo_delete'),
 
+    path('advanced_query_1/', views.advanced_query_1),
+    path('advanced_query_2/', views.advanced_query_2),
+    path('advanced_query_3/', views.advanced_query_3)
 ]
