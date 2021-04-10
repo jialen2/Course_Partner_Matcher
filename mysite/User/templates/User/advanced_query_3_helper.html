@@ -1,11 +1,16 @@
-{% extends 'User/main.html'%}
-
+{% extends 'User/main.html' %}
 {% block content %}
 
-<form action="{% url 'advanced_query_3' %}" method="GET">
-    <label for="your_netid">Your NetId: </label>
-    <input id="your_netid" type="text" netid="your_netid" value="">
-    <input type="submit" value="OK">
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form}}
+    <input class="btn btn-primary" type="submit"></input>
 </form>
+
+
+
+
+
 
 {% endblock %}

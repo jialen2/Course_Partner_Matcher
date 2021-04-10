@@ -23,7 +23,7 @@ urlpatterns = [
 
     path('advanced_query_1/', views.advanced_query_1),
     path('advanced_query_2/', views.advanced_query_2),
-    path('advanced_query_3/<str:text>/', views.advanced_query_3),
+    path('advanced_query_3_helper/<str:input>/', views.advanced_query_3),
     path('advanced_query_3_helper/', views.advanced_query_3_helper),
     path('advanced_query_4/', views.advanced_query_4)
 ]
