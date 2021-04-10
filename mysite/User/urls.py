@@ -23,5 +23,6 @@ urlpatterns = [
 
     path('advanced_query_1/', views.advanced_query_1),
     path('advanced_query_2/', views.advanced_query_2),
-    path('advanced_query_3/', views.advanced_query_3)
+    path('advanced_query_3/', views.advanced_query_3),
+    path('advanced_query_4/', views.advanced_query_4)
 ]

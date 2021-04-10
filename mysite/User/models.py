@@ -28,8 +28,8 @@ class Courses(models.Model):
         return self.CRN
 
 class LoginInfo(models.Model):
-    AccountName = models.CharField(max_length=30, primary_key=True)
-    Password = models.CharField(max_length=100)
+    AccountName = models.CharField(max_length = 30, primary_key = True)
+    Password = models.CharField(max_length = 100)
     class Meta:
         db_table = "LoginInfo"
 
@@ -53,3 +53,11 @@ class Instructors(models.Model):
     class Meta:
         db_table = "Instructors"
         unique_together = (("Name", "Department"),)
+
+class Departments(models.Model):
+    DeptName = models.CharField(max_length = 100, primary_key = True)
+    DeptHead = models.CharField(max_length = 50)
+    DeptOffice = models.CharField(max_length = 300)
+    DeptPhone = models.CharField(max_length = 50)
+    class Meta:
+        db_table = "Departments"

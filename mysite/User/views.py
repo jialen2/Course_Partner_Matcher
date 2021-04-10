@@ -160,3 +160,9 @@ def advanced_query_3(request):
                                 "FROM Students S NATURAL JOIN Home H " +
                                 "WHERE S.SchoolYear = 'Senior' AND H.Department IN (SELECT H1.Department FROM Home H1 WHERE H1.NetId = 'myrah3')")
     return render(request, 'User/advanced_query_3.html', {'data':data})
+
+def advanced_query_4(request):
+    data = Departments.objects.raw("SELECT D.DeptName, GROUP_CONCAT(distinct C.CourseTitle) as result1, GROUP_CONCAT(distinct C.CourseNumber) as result2 "+
+                               "FROM Courses C JOIN Departments D ON C.Department=D.DeptName GROUP BY D.DeptName " +
+                               "ORDER by D.DeptName")
+    return render(request, 'User/advanced_query_4.html', {'data':data})
