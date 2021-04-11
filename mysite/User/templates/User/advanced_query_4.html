@@ -3,7 +3,7 @@
 {% block content %}
 <h1 style="padding-left: 20px;">Advanced Query4</h1>
 <div style="padding:0 0 20px 20px;">For each Department, find all courses in that department</div>
-<table class="table table-sm">
+<table class="table table-sm" >
     <tr>
         <th></th>
         <th>DeptName</th>
@@ -13,9 +13,9 @@
     {% for i in data %}
         <tr>
             <th></th>
-            <td>{{i.DeptName}}</td>
-            <td>{{i.result1}}</td>
-            <td>{{i.result2}}</td>
+            <td style="width: 50px;">{{i.DeptName}}</td>
+            <td style="width: 200px;">{{i.result1}}</td>
+            <td style="overflow-wrap: break-word; max-width: 50px;">{{i.result2}}</td>
         </tr>
     {% endfor %}
 </table>
