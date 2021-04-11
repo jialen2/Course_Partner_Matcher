@@ -2,12 +2,14 @@
 from rest_framework import viewsets
 from rest_framework import permissions
 from django.http import HttpResponse
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from .forms import EnrollmentForm
 from .forms import CoursesForm
 from .forms import LoginInfoForm
 from .forms import Query3Form
+from .forms import Query2Form
 from .filters import *
 from .forms import StudentsForm
 
@@ -49,12 +51,13 @@ def enrollmentDelete(request, NetId, CRN):
     return render(request, 'User/deleteEnrollment.html', context)
 
 
-
-def students(request):
-    students = Students.objects.all()
-    return render(request, 'User/students.html', {'students':students})
-
 def StudentViewSet(request):
+    netid = request.GET.get('NetId')
+    if netid != None:
+        obj = Students.objects.filter(NetId=netid).first()
+        if obj == None:
+            messages.error(request,'Invalid NetId')
+            return redirect('/students')
     myFilter = StudentsFilter(request.GET, queryset=Students.objects.all())
     context = {'myFilter': myFilter}
     return render(request, 'User/students.html', context)
@@ -171,8 +174,19 @@ def advanced_query_1(request):
     return render(request, 'User/advanced_query_1.html', {'data':data})
 
 def advanced_query_2(request):
-    data = Students.objects.raw("SELECT GROUP_CONCAT(c.CourseNumber) as result, s1.Preferred_Work_Time, s1.NetId FROM Students s1 NATURAL JOIN Enrollment e1 JOIN Courses c ON e1.CRN = c.CRN JOIN (SELECT s2.Preferred_Work_Time, e2.CRN, s2.NetId FROM Students s2 NATURAL JOIN Enrollment e2 WHERE s2.NetId = 'myrah3') as derived WHERE e1.CRN = derived.CRN and s1.NetId <> derived.NetId GROUP by s1.NetId Order by count(e1.CRN) DESC")
-    return render(request, 'User/advanced_query_2.html', {'data':data})
+    form = Query2Form()
+    if request.method == "POST":
+        form = Query2Form(request.POST or None)
+        if form.is_valid():
+            text = request.POST.get('netid')
+            obj = Students.objects.filter(NetId=text).first()
+            if obj == None:
+                messages.error(request,'Invalid NetId')
+                return redirect('/students')
+            data = Students.objects.raw("SELECT GROUP_CONCAT(c.CourseNumber) as result, s1.Preferred_Work_Time, s1.NetId FROM Students s1 NATURAL JOIN Enrollment e1 JOIN Courses c ON e1.CRN = c.CRN JOIN (SELECT s2.Preferred_Work_Time, e2.CRN, s2.NetId FROM Students s2 NATURAL JOIN Enrollment e2 WHERE s2.NetId = '" + text + "') as derived WHERE e1.CRN = derived.CRN and s1.NetId <> derived.NetId GROUP by s1.NetId Order by count(e1.CRN) DESC")
+            return render(request, 'User/advanced_query_2.html', {'data':data})
+    context = {'form': form}
+    return render(request, 'User/forms.html', context)
 
 def advanced_query_3_helper(request):
     form = Query3Form()

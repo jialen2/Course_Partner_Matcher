@@ -2,6 +2,12 @@
 
 {% block content %}
 <hr>
+{% for message in messages %}
+
+<div class="alert alert-danger" style="margin-left: 130px; margin-right: 130px">
+    <p>{{ message }}</p>
+</div>
+{% endfor %}
 <div class="row">
     <div class="col-md-1.5 offset-md-1">
         <div class="card card-body">
@@ -12,17 +18,12 @@
         </div>
     </div>
 </div>
-
 <br>
 
 <div class="row">
     <div class="col-md-10 offset-md-1">
         <h5>Students</h5>
         <div class = "card card-body">
-            <form method="POST">
-                <input type="text" id="netid">
-                <button type="submit" id="submit_button">Update Students</button>
-            </form>
             <a class='btn btn-primary btn-sm btn-block' href="{% url 'students_create' %}">Add Students Info</a>
             <table class="table table-sm">
                 <tr>

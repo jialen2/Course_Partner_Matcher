@@ -28,3 +28,6 @@ class StudentsForm(ModelForm):
 
 class Query3Form(Form):
     your_netid = forms.CharField(max_length=100)
+
+class Query2Form(Form):
+    netid = forms.CharField(max_length=100)
