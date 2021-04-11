@@ -36,7 +36,7 @@ class LoginInfo(models.Model):
         return self.AccountName
 
 class Students(models.Model):
-    time = [('early morning', 'early morning'), ('morning', 'morning'), ('afternoon', 'afternoon'), ('evening', 'evening'), ('late night', 'late night')]
+    time = [('early morning', 'early morning'), ('morning', 'morning'), ('noon', 'noon'), ('afternoon', 'afternoon'), ('evening', 'evening'), ('late night', 'late night')]
     schoolyear = [('freshman', 'freshman'), ('sophomore', 'sophomore'), ('junior', 'junior'), ('senior', 'senior'), ('masters', 'masters'), ('PhD', 'PhD')]
     NetId = models.CharField(max_length = 10, primary_key = True)
     FirstName = models.CharField(max_length = 50)
