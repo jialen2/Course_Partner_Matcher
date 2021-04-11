@@ -2,12 +2,6 @@
 {% block content %}
 <h1 style="padding-left: 20px;">Advanced Query2</h1>
 <div style="padding:0 0 20px 20px;">For a given student, find students who are classmates with him/her in any course</div>
-{% for message in messages %}
-
-<div class="alert alert-danger" style="margin-left: 130px; margin-right: 130px">
-    <p>{{ message }}</p>
-</div>
-{% endfor %}
 
 <form action="" method="POST">
     {% csrf_token %}
