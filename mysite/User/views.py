@@ -193,7 +193,7 @@ def advanced_query_3_helper(request):
     if request.method == "POST":
         form = Query3Form(request.POST or None)
         if form.is_valid():
-            text = request.POST.get('your_netid')
+            text = request.POST.get('netid')
             obj = Students.objects.filter(NetId=text).first()
             if obj == None:
                 messages.error(request,'Invalid NetId')
