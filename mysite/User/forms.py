@@ -27,7 +27,7 @@ class StudentsForm(ModelForm):
         fields = ['NetId', 'FirstName', 'LastName', 'Preferred_Work_Time', 'SchoolYear', 'ContactInfo', 'OtherInfo']
 
 class Query3Form(Form):
-    your_netid = forms.CharField(max_length=100)
+    netid = forms.CharField(max_length=100)
 
 class Query2Form(Form):
     netid = forms.CharField(max_length=100)
