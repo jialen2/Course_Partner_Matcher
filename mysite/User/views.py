@@ -70,6 +70,24 @@ def studentsCreate(request):
     context = {'form': form}
     return render(request, 'User/forms.html', context)
 
+def students_update(request, NetId):
+    currentInstance =  Students.objects.get(NetId = NetId)
+    form = StudentsForm(instance=currentInstance)
+    if request.method == "POST":
+        form = StudentsForm(request.POST, instance=currentInstance)
+        if form.is_valid():
+            form.save()
+            return redirect('/students')
+    context = {'form': form}
+    return render(request, 'User/forms.html', context)
+
+def students_delete(request, NetId):
+    currentInstance =  Students.objects.get(NetId = NetId)
+    if request.method == "POST":
+        currentInstance.delete()
+        return redirect('/students')
+    context = {'item': currentInstance}
+    return render(request, 'User/deleteStudents.html', context)
 
 
 def logininfoViewSet(request):

@@ -45,6 +45,8 @@
                         <td>{{i.SchoolYear}}</td>
                         <td>{{i.ContactInfo}}</td>
                         <td>{{i.OtherInfo}}</td>
+                        <td><a class="btn btn-sm btn-info" href = "{% url 'students_update' NetId=i.NetId %}">Update</a></td>
+                        <td><a class="btn btn-sm btn-danger" href = "{% url 'students_delete' NetId=i.NetId %}">Delete</a></td>
                     </tr>
                 {% endfor %}
             </table>
