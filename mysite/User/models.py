@@ -36,10 +36,11 @@ class LoginInfo(models.Model):
         return self.AccountName
 
 class Students(models.Model):
+    time = [('morning', 'morning'), ('afternoon', 'afternoon'), ('evening', 'evening'), ('early morning', 'early morning'), ('late night', 'late night')]
     NetId = models.CharField(max_length = 10, primary_key = True)
     FirstName = models.CharField(max_length = 50)
     LastName = models.CharField(max_length = 50)
-    Preferred_Work_Time = models.CharField(max_length = 50)
+    Preferred_Work_Time = models.CharField(max_length = 50, choices = time)
     SchoolYear = models.CharField(max_length = 50)
     ContactInfo = models.CharField(max_length = 255)
     OtherInfo = models.CharField(max_length = 255)
