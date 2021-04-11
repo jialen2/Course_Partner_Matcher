@@ -1,6 +1,12 @@
 {% extends 'User/main.html' %}
 {% block content %}
 
+{% for message in messages %}
+
+<div class="alert alert-danger" style="margin-left: 130px; margin-right: 130px">
+    <p>{{ message }}</p>
+</div>
+{% endfor %}
 
 <form action="" method="POST">
     {% csrf_token %}

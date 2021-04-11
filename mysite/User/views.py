@@ -194,6 +194,10 @@ def advanced_query_3_helper(request):
         form = Query3Form(request.POST or None)
         if form.is_valid():
             text = request.POST.get('your_netid')
+            obj = Students.objects.filter(NetId=text).first()
+            if obj == None:
+                messages.error(request,'Invalid NetId')
+                return redirect('/advanced_query_3_helper/')
             return redirect("/advanced_query_3_helper/"+text)
     context = {'form': form}
     return render(request, 'User/advanced_query_3_helper.html', context)
