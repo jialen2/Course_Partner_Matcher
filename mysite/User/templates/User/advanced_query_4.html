@@ -1,0 +1,23 @@
+{% extends 'User/main.html'%}
+
+{% block content %}
+<h1 style="padding-left: 20px;">Advanced Query4</h1>
+<div style="padding:0 0 20px 20px;">For each Department, find all courses in that department</div>
+<table class="table table-sm">
+    <tr>
+        <th></th>
+        <th>DeptName</th>
+        <th>CourseTitle</th>
+        <th>CourseNumber</th>
+    </tr>
+    {% for i in data %}
+        <tr>
+            <th></th>
+            <td>{{i.DeptName}}</td>
+            <td>{{i.result1}}</td>
+            <td>{{i.result2}}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
