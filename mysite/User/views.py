@@ -68,7 +68,7 @@ def studentsCreate(request):
         form = StudentsForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/home')
+            return redirect('/students')
 
     context = {'form': form}
     return render(request, 'User/forms.html', context)
@@ -145,7 +145,7 @@ def createCourses(request):
         form = CoursesForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/home')
+            return redirect('/courses')
 
     context = {'form': form}
     return render(request, 'User/forms.html', context)
