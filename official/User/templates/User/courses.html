@@ -1,0 +1,58 @@
+{% extends 'User/main.html'%}
+
+{% block content %}
+
+<hr>
+<div class="row">
+    <div class="col-md-1.5">
+        <div class="card card-body">
+            <form method="get">
+                {{myFilter.form}}
+            <button class="btn btn-primary" type="submit"> Search </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="row">
+    <div class="col-md-12">
+        <h5>Courses</h5>
+        <div class = "card card-body">
+            <a class='btn btn-primary btn-sm btn-block' href="{% url 'createCourses' %}">Add Courses</a>
+            <table class="table table-sm">
+                <tr>
+                    <th></th>
+                    <th>CRN</th>
+                    <th>CourseTitle</th>
+                    <th>CourseNumber</th>
+                    <th>Department</th>
+                    <th>Section</th>
+                    <th>ScheduleType</th>
+                    <th>Instructor</th>
+                    <th>MeetingTime</th>
+                </tr>
+                {% for i in courses %}
+                    <tr>
+                        <th></th>
+                        <td>{{i.CRN}}</td>
+                        <td>{{i.CourseTitle}}</td>
+                        <td>{{i.CourseNumber}}</td>
+                        <td>{{i.Department}}</td>
+                        <td>{{i.Section}}</td>
+                        <td>{{i.ScheduleType}}</td>
+                        <td>{{i.Instructor}}</td>
+                        <td>{{i.MeetingTime}}</td>
+                        <td><a class="btn btn-sm btn-info" href = "{% url 'courses_update' i.CRN %}">Update</a></td>
+                        <td><a class="btn btn-sm btn-danger" href = "{% url 'courses_delete' i.CRN %}">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+<br>
+
+{% endblock %}

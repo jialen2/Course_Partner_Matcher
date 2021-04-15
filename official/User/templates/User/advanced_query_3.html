@@ -1,0 +1,25 @@
+{% extends 'User/main.html'%}
+
+{% block content %}
+<h1 style="padding-left: 20px;">Advanced Query3</h1>
+<div style="padding:0 0 20px 20px;">For a given student, find mentors(senior students) who are in the same major as him/her</div>
+<table class="table table-sm">
+    <tr>
+        <th></th>
+        <th>NetId</th>
+        <th>ContactInfo</th>
+        <th>OtherInfo</th>
+        <th>Department</th>
+    </tr>
+    {% for i in data %}
+        <tr>
+            <th></th>
+            <td>{{i.NetId}}</td>
+            <td>{{i.ContactInfo}}</td>
+            <td>{{i.OtherInfo}}</td>
+            <td>{{i.Department}}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
