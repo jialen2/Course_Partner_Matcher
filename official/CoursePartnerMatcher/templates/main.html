@@ -17,34 +17,54 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="/students">Students<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/logininfo">LoginInfo<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/courses">Courses<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/enrollment">Enrollment<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/advanced_query_1">Advanced_Query1<span class="sr-only">(current)</span></a >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/advanced_query_2">Advanced_Query2<span class="sr-only">(current)</span></a >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/advanced_query_3_helper">Advanced_Query3<span class="sr-only">(current)</span></a >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/advanced_query_4">Advanced_Query4<span class="sr-only">(current)</span></a >
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="#">Temp1<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Temp2<span class="sr-only">(current)</span></a>
+        </li>
+    </ul>
+    <ul class = "navbar-nav">
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Settings</a>
+        <div class="dropdown-menu" style="left:auto;right:0;margin-right:-10px;">
+            <a class="dropdown-item" href="/profile">My Profile</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/logout">Logout</a>
+        </div>
       </li>
     </ul>
   </div>
 </nav>
+<div class="row">
+  <div class="col-md-12">
+      <div class = "card card-body">
+          <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>
+                    <!-- Default unchecked -->
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="tableDefaultCheck1">
+                      <label class="custom-control-label" for="tableDefaultCheck1">Check 1</label>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              
+              {% for i in courses %}
+                  <tr>
+                      <th></th>
+                      <td>{{i.CRN}}</td>
+                      <td><a class="btn btn-sm btn-info" href = "{% url 'courses_update' i.CRN %}">Update</a></td>
+                      <td><a class="btn btn-sm btn-danger" href = "{% url 'courses_delete' i.CRN %}">Delete</a></td>
+                  </tr>
+              {% endfor %}
+          </table>
+      </div>
+  </div>
+</div>
     <br>
     {% for message in messages %}
 

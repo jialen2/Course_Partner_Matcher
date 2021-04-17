@@ -14,6 +14,9 @@ from .forms import CreateUserForm
 def home(request):
     return render(request, 'home.html')
 
+def result(request):
+    return render(request, 'main.html')
+
 def registerPage(request):
     if request.user.is_authenticated:
         return redirect('/')
@@ -49,3 +52,4 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     return redirect('/login')
+
