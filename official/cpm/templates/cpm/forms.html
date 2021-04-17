@@ -1,13 +1,6 @@
 {% extends 'User/main.html' %}
 {% load static %}
 {% block content %}
-
-<!-- <form action="" method="POST">
-    {% csrf_token %}
-    {{form}}
-    <input type="submit" name="Submit">
-</form> -->
-
 <div class="row">
     <h2 style="text-align: center">{{ title }}</h2>
     <div style="width: 30%; margin: 25px auto;">
@@ -22,7 +15,9 @@
                 <button class="btn btn-lg btn-primary btn-block">Submit</button>
             </div>
         </form>
-        <a href="/taste">Go Back</a>
+        <a href="/">Go Back</a>
     </div>
+</div>
+
 </div>
 {% endblock %}
