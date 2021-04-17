@@ -69,8 +69,7 @@ def studentsCreate(request):
         if form.is_valid():
             form.save()
             return redirect('/students')
-
-    context = {'form': form}
+    context = {'form': form, 'fields': form.fields.keys()}
     return render(request, 'User/forms.html', context)
 
 def students_update(request, NetId):
@@ -108,7 +107,7 @@ def logininfoCreate(request):
             form.save()
             return redirect('/logininfo')
 
-    context = {'form': form}
+    context = {'form': form, 'fields': form.fields.keys(), 'title': "Account"}
     return render(request, 'User/forms.html', context)
 
 def logininfoUpdate(request, pk):
