@@ -51,62 +51,18 @@
 <div class="row">
   <div class="col-md-12">
       <div class = "card card-body">
-          <table class="table" data-click-to-select="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-pagination="true">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>
-                    <input class="form-check-input" type="checkbox" value="" id="workTimeCheck" unchecked>
-                    <label class="form-check-label" for="workTimeCheck">
-                      Preferred Work Time
-                    </label>
-                  </th>
-                  <th>
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked2" unchecked>
-                    <label class="form-check-label" for="flexCheckChecked2">
-                      Checked checkbox
-                    </label>
-                  </th>
-                  <th>
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked3" unchecked>
-                    <label class="form-check-label" for="flexCheckChecked3">
-                      Checked checkbox
-                    </label>
-                  </th>
-                  {% for i in courses %}
-                    <th>
-                      <a class="form-check-input" type="checkbox" value="" id="{{i}}" unchecked>
-                      <label class="form-check-label" for="{{i}}">
-                        {{i.CRN}}
-                      </label>
-                    </th>
-                  {% endfor %}
-                </tr>
-              </thead>
-              {% for i in courses %}
-                  <tr>
-                      <th></th>
-                      <td>{{i.CRN}}</td>
-                      <td><a class="btn btn-sm btn-info" href = "{% url 'courses_update' i.CRN %}">Update</a></td>
-                      <td><a class="btn btn-sm btn-danger" href = "{% url 'courses_delete' i.CRN %}">Delete</a></td>
-                  </tr>
-              {% endfor %}
+          <table class="table table-sm">
+              <br>
+                
+
+                {% block content %}
+
+                {% endblock %}
           </table>
       </div>
   </div>
 </div>
-    <br>
-    {% for message in messages %}
 
-    <div class="alert alert-danger" style="margin-left: 130px; margin-right: 130px">
-        <p>{{ message }}</p>
-    </div>
-    {% endfor %}
-
-    {% block content %}
-
-    {% endblock %}
 
 
 </body>
