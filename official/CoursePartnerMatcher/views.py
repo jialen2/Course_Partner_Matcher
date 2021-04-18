@@ -21,7 +21,7 @@ def result(request):
 
 def registerPage(request):
     if request.user.is_authenticated:
-        return redirect('/')
+        return redirect('/home/' + request.user.username)
     else:
         form = CreateUserForm()
         if request.method == 'POST':
