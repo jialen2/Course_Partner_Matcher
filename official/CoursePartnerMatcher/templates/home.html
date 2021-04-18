@@ -12,8 +12,8 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <span class="hello-msg">Hello, {{request.user}}</span>
-  <span ><a  class="hello-msg" href="{% url 'logout' %}">Logout</a></span>
+  <span class="btn btn-light">Hello, {{request.user}}</span>
+  <span ><a  class="btn btn-light" style="margin-left: 1230px" href="{% url 'logout' %}">Logout</a></span>
 </nav>
     <br>
     {% for message in messages %}
@@ -21,7 +21,13 @@
     <div class="alert alert-danger" style="margin-left: 130px; margin-right: 130px">
         <p>{{ message }}</p>
     </div>
+
+    <br>
     {% endfor %}
+
+    <div class="alert alert-danger" style="margin-left: 130px; margin-right: 130px">
+      <h1> 好家伙！ </h1>
+    </div>
 
     {% block content %}
 
