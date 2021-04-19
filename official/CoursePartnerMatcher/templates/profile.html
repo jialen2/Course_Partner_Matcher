@@ -1,0 +1,16 @@
+{% extends 'main.html'%}
+
+{% block content %}
+
+<h1 style="padding-left: 20px;">Courses</h1>
+<div style="padding:0 0 20px 20px;"> --- Placeholder --- </div>
+<table class="table table-sm" id="myTable">
+    {% for i in data %}
+        <tr>
+            <th></th>
+            <td>{{i.CRN}}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
