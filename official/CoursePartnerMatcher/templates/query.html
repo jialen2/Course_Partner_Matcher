@@ -1,6 +1,7 @@
 {% extends 'main.html'%}
 
 {% block content %}
+
 <h1 style="padding-left: 20px;">Course Partners</h1>
 <div style="padding:0 0 20px 20px;"> --- Placeholder --- </div>
 <table class="table table-sm" id="myTable">
@@ -8,16 +9,14 @@
         <th></th>
         <th>Courses</th>
         <th>
-        <input class="form-check-input" type="checkbox" onchange="sort(this,1)" id="workTimeCheck" unchecked>
-        <label class="form-check-label" for="workTimeCheck">
-            Preferred Work Time
-        </label>
+            <!-- <input class="form-check-input" type="checkbox" onchange="sort(this,1)" id="workTimeCheck" unchecked> -->
+            <label class="form-check-label" for="workTimeCheck"> Preferred Work Time </label>
+            <i class="fa fa-caret-down" onclick="sort(1)"></i>
         </th>
         <th>
-        <input class="form-check-input" type="checkbox" onchange="sort(this,2)" id="NetIdCheck" unchecked>
-        <label class="form-check-label" for="NetIdCheck">
-            NetId
-        </label>
+            <label class="form-check-label" for="NetIdCheck"> NetId </label>
+            <!-- <button type="button" class="btn btn-link" onclick = "sort(2)">↕</button> -->
+            <i class="fa fa-caret-down" onclick="sort(2)"></i>
         </th>
     </tr>
     {% for i in data %}
@@ -31,41 +30,40 @@
 </table>
 
 <script>
-    function sort(checkbox, index) {
-        if (checkbox.checked==true){
-            var table, rows, switching, i, x, y, shouldSwitch;
-            table = document.getElementById("myTable");
-            switching = true;
-            /*Make a loop that will continue until
-            no switching has been done:*/
-            while (switching) {
-                //start by saying: no switching is done:
-                switching = false;
-                rows = table.rows;
-                /*Loop through all table rows (except the
-                first, which contains table headers):*/
-                for (i = 1; i < (rows.length - 1); i++) {
-                    //start by saying there should be no switching:
-                    shouldSwitch = false;
-                    /*Get the two elements you want to compare,
-                    one from current row and one from the next:*/
-                    x = rows[i].getElementsByTagName("TD")[index];
-                    y = rows[i + 1].getElementsByTagName("TD")[index];
-                    //check if the two rows should switch place:
-                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                        //if so, mark as a switch and break the loop:
-                        shouldSwitch = true;
-                        break;
-                    }
-                }
-                if (shouldSwitch) {
-                    /*If a switch has been marked, make the switch
-                    and mark that a switch has been done:*/
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
+    function sort(index) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("myTable");
+        switching = true;
+        /*Make a loop that will continue until
+        no switching has been done:*/
+        while (switching) {
+            //start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /*Loop through all table rows (except the
+            first, which contains table headers):*/
+            for (i = 1; i < (rows.length - 1); i++) {
+                //start by saying there should be no switching:
+                shouldSwitch = false;
+                /*Get the two elements you want to compare,
+                one from current row and one from the next:*/
+                x = rows[i].getElementsByTagName("TD")[index];
+                y = rows[i + 1].getElementsByTagName("TD")[index];
+                //check if the two rows should switch place:
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    //if so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
                 }
             }
+            if (shouldSwitch) {
+                /*If a switch has been marked, make the switch
+                and mark that a switch has been done:*/
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
         }
+        
     }
 </script>
 
