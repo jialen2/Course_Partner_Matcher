@@ -11,12 +11,12 @@
         <th>
             <!-- <input class="form-check-input" type="checkbox" onchange="sort(this,1)" id="workTimeCheck" unchecked> -->
             <label class="form-check-label" for="workTimeCheck"> Preferred Work Time </label>
-            <i class="fa fa-caret-down" onclick="sort(1)"></i>
+            <i class="fa fa-caret-up" id="button1" onclick="sort(1)"></i>
         </th>
         <th>
             <label class="form-check-label" for="NetIdCheck"> NetId </label>
             <!-- <button type="button" class="btn btn-link" onclick = "sort(2)">↕</button> -->
-            <i class="fa fa-caret-down" onclick="sort(2)"></i>
+            <i class="fa fa-caret-up" id="button2" onclick="sort(2)"></i>
         </th>
     </tr>
     {% for i in data %}
@@ -30,40 +30,80 @@
 </table>
 
 <script>
+    var isswitched = false;
+    
     function sort(index) {
+        var up = document.getElementById("button"+index);
         var table, rows, switching, i, x, y, shouldSwitch;
-        table = document.getElementById("myTable");
-        switching = true;
-        /*Make a loop that will continue until
-        no switching has been done:*/
-        while (switching) {
-            //start by saying: no switching is done:
-            switching = false;
-            rows = table.rows;
-            /*Loop through all table rows (except the
-            first, which contains table headers):*/
-            for (i = 1; i < (rows.length - 1); i++) {
-                //start by saying there should be no switching:
-                shouldSwitch = false;
-                /*Get the two elements you want to compare,
-                one from current row and one from the next:*/
-                x = rows[i].getElementsByTagName("TD")[index];
-                y = rows[i + 1].getElementsByTagName("TD")[index];
-                //check if the two rows should switch place:
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                    //if so, mark as a switch and break the loop:
-                    shouldSwitch = true;
-                    break;
+        if (isswitched==false){
+            table = document.getElementById("myTable");
+            switching = true;
+            /*Make a loop that will continue until
+            no switching has been done:*/
+            while (switching) {
+                //start by saying: no switching is done:
+                switching = false;
+                rows = table.rows;
+                /*Loop through all table rows (except the
+                first, which contains table headers):*/
+                for (i = 1; i < (rows.length - 1); i++) {
+                    //start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /*Get the two elements you want to compare,
+                    one from current row and one from the next:*/
+                    x = rows[i].getElementsByTagName("TD")[index];
+                    y = rows[i + 1].getElementsByTagName("TD")[index];
+                    //check if the two rows should switch place:
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        //if so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    /*If a switch has been marked, make the switch
+                    and mark that a switch has been done:*/
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
                 }
             }
-            if (shouldSwitch) {
-                /*If a switch has been marked, make the switch
-                and mark that a switch has been done:*/
-                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                switching = true;
+            isswitched = true;
+            up.className="fa fa-caret-down";
+        } else {
+            table = document.getElementById("myTable");
+            switching = true;
+            /*Make a loop that will continue until
+            no switching has been done:*/
+            while (switching) {
+                //start by saying: no switching is done:
+                switching = false;
+                rows = table.rows;
+                /*Loop through all table rows (except the
+                first, which contains table headers):*/
+                for (i = 1; i < (rows.length - 1); i++) {
+                    //start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /*Get the two elements you want to compare,
+                    one from current row and one from the next:*/
+                    x = rows[i].getElementsByTagName("TD")[index];
+                    y = rows[i + 1].getElementsByTagName("TD")[index];
+                    //check if the two rows should switch place:
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        //if so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    /*If a switch has been marked, make the switch
+                    and mark that a switch has been done:*/
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
             }
+            isswitched = false;
+            up.className="fa fa-caret-up";
         }
-        
     }
 </script>
 
