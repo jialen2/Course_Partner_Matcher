@@ -9,27 +9,28 @@
         <th></th>
         <th>Courses</th>
         <th>
-            <!-- <input class="form-check-input" type="checkbox" onchange="sort(this,1)" id="workTimeCheck" unchecked> -->
-            <label class="form-check-label" for="workTimeCheck"> Preferred Work Time </label>
-            <i class="fa fa-caret-up" id="button1" onclick="sort(1)"></i>
+            <label class="form-check-label" for="workTimeCheck"> NetId </label>
+            <i class="fa fa-caret-up" id="button1" onclick=sort(1)></i>
         </th>
         <th>
-            <label class="form-check-label" for="NetIdCheck"> NetId </label>
+            <label class="form-check-label" for="NetIdCheck"> Preferred Work Time </label>
             <!-- <button type="button" class="btn btn-link" onclick = "sort(2)">↕</button> -->
-            <i class="fa fa-caret-up" id="button2" onclick="sort(2)"></i>
+            <i class="fa fa-caret-up" id="button2" onclick=sort(2)></i>
         </th>
-        {% for i in courses %}
+        {% for cour in courses %}
         <th>
-            <label>{{i.CourseNumber}}</label>
+            <input class="form-check-input" type="checkbox" onchange=check({{cour.CourseNumber}}) id={{cour.CourseNumber}} unchecked>
+            <label>{{cour.CourseNumber}}</label>
         </th>
         {% endfor %}
+
     </tr>
     {% for i in data %}
         <tr>
             <th></th>
             <td>{{i.result}}</td>
-            <td>{{i.Preferred_Work_Time}}</td>
             <td>{{i.NetId}}</td>
+            <td>{{i.Preferred_Work_Time}}</td>
             {% for j in courses %}
             <th>
                 {% if j.CourseNumber in i.result %}
@@ -43,7 +44,27 @@
 
 <script>
     var isswitched = false;
-
+    function check(id) {
+        var current = document.getElementById(id);
+        var table, rows;
+        table = document.getElementById("myTable");
+        rows=table.rows;
+        if (current.checked=true) {
+            alert(id);
+            for (i = 1; i < (rows.length - 1); i++) {
+                    x = rows[i].getElementsByTagName("TD")[id];
+                    if (x.innerHTML.toLowerCase()=="") {
+                        rows[i].style.display="none";
+                    }
+            }
+        } else {
+            alert(id + "not checked");
+            for (i = 1; i < (rows.length - 1); i++) {
+                x = rows[i].getElementsByTagName("TD")[id];
+                rows.style.display="block";
+            }
+        }
+    }
     function sort(index) {
         var up = document.getElementById("button"+index);
         var table, rows, switching, i, x, y, shouldSwitch;
