@@ -5,11 +5,21 @@
 <h1 style="padding-left: 20px;">Courses</h1>
 <div style="padding:0 0 20px 20px;"> --- Placeholder --- </div>
 <table class="table table-sm" id="myTable">
-    {% for i in data %}
+    {% for i in students %}
         <tr>
             <th></th>
-            <td>{{i.CRN}}</td>
+            <td>{{i.NetId}}</td>
+            <td>{{i.FirstName}}</td>
+            <td>{{i.LastName}}</td>
+            <td>{{i.Preferred_Work_Time}}</td>
+            <td>{{i.SchoolYear}}</td>
+            <td>{{i.ContactInfo}}</td>
+            <td>{{i.OtherInfo}}</td>
         </tr>
+    {% endfor %}
+    {% for i in courses %}
+            <th></th>
+            <td>{{i.CourseNumber}}</td>
     {% endfor %}
 </table>
 

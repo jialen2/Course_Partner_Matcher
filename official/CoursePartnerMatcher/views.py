@@ -64,5 +64,6 @@ def query(request, netid):
 def profile(request, netid):
     if not (netid == request.user.username):
         return redirect('/home')
-    data = Students.objects.raw("SELECT * FROM Enrollment WHERE NetId = '" + netid + "'")
-    return render(request, 'profile.html', {'data':data})
+    courses = Students.objects.raw("SELECT NetId, CourseNumber FROM Enrollment NATURAL JOIN Courses WHERE NetId = '" + netid + "'")
+    students = Students.objects.raw("SELECT * FROM Students WHERE NetId = '" + netid + "'")
+    return render(request, 'profile.html', {'courses':courses, 'students':students})
