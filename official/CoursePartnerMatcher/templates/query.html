@@ -18,6 +18,11 @@
             <!-- <button type="button" class="btn btn-link" onclick = "sort(2)">↕</button> -->
             <i class="fa fa-caret-up" id="button2" onclick="sort(2)"></i>
         </th>
+        {% for i in courses %}
+        <th>
+            <label>{{i.CourseNumber}}</label>
+        </th>
+        {% endfor %}
     </tr>
     {% for i in data %}
         <tr>
@@ -25,6 +30,13 @@
             <td>{{i.result}}</td>
             <td>{{i.Preferred_Work_Time}}</td>
             <td>{{i.NetId}}</td>
+            {% for j in courses %}
+            <th>
+                {% if j.CourseNumber in i.result %}
+                    <label> √ </label>
+                {% endif %}
+            </th>
+            {% endfor %}
         </tr>
     {% endfor %}
 </table>
