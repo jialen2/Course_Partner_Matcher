@@ -3,7 +3,6 @@
 {% block content %}
 
 <h1 style="padding-left: 20px;">Course Partners</h1>
-<div style="padding:0 0 20px 20px;"> --- Placeholder --- </div>
 <table class="table table-sm" id="myTable">
     <tr>
         <th></th>
@@ -11,30 +10,25 @@
             <label> NetId </label>
             <i class="fa fa-caret-up" id="button0" onclick=sort(0)></i>
         </th>
-        <th>
-            <label> Email </label>
-            <i class="fa fa-caret-up" id="button1" onclick=sort(1)></i>
-        </th>
+        <th>Contact Info</th>
+        <th>Other Info</th>
         <th>
             <label> Preferred Work Time </label>
-            <i class="fa fa-caret-up" id="button2" onclick=sort(2)></i>
+            <i class="fa fa-caret-up" id="button3" onclick=sort(3)></i>
         </th>
         {% for cour in courses %}
         <th>
-            <input class="form-check-input" type="checkbox" id={{forloop.counter}} onchange=check(id) unchecked>
+            <input class="form-check-input" type="checkbox" id={{forloop.counter}} onchange=check() unchecked>
             <label>{{cour.CourseNumber}}</label>
         </th>
         {% endfor %}
-        <p align="right">
-            <input type="button" onclick="clearSelect()" value="Clear Selection" />
-        </p>
-
     </tr>
     {% for i in data %}
         <tr>
             <th></th>
             <td>{{i.NetId}}</td>
             <td>{{i.ContactInfo}}</td>
+            <td>{{i.OtherInfo}}</td>
             <td>{{i.Preferred_Work_Time}}</td>
             {% for j in courses %}
             <td>
@@ -51,34 +45,27 @@
 
 <script>
     var isswitched = false;
-    function check(id) {
-        var current = document.getElementById(id);
+    function check() {
         var table, rows;
         table = document.getElementById("myTable");
-        rows=table.rows;
-        if (current.checked==true) {
-            for (i = 1; i < rows.length; i++) {
-                    x = rows[i].getElementsByTagName("LABEL")[id-1];
-                    if (x.innerHTML=="") {
-                        rows[i].style.display="none";
-                    }
-            }
-        }
-        document.getElementById(id).disabled="disabled";
-    }
-    function clearSelect() {
-        table = document.getElementById("myTable");
+        cols = table.rows[0].cells.length;
         rows=table.rows;
         for (i = 1; i < rows.length; i++) {
             rows[i].style.display="table-row";
         }
-        for (i = 1; i < rows[0].cells.length; i++) {
-            button = document.getElementById(i);
-            button.disabled=false;
-            button.enabled="enabled";
-            button.checked = false;
+        for (j=1; j <= cols-4; j++){
+            current = document.getElementById(j)
+            if (current.checked==true) {
+                for (i = 1; i < rows.length; i++) {
+                    x = rows[i].getElementsByTagName("LABEL")[j-1];
+                    if (x.innerHTML=="") {
+                        rows[i].style.display="none";
+                    }
+                }
+            }
         }
     }
+
     function sort(index) {
         var up = document.getElementById("button"+index);
         var table, rows, switching, i, x, y, shouldSwitch;
