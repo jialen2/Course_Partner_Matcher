@@ -7,14 +7,13 @@
     <tr>
         <th></th>
         <th>
-            <label class="form-check-label" for="workTimeCheck"> NetId </label>
+            <label> NetId </label>
             <i class="fa fa-caret-up" id="button0" onclick=sort(0)></i>
         </th>
         <th>Contact Info</th>
         <th>Other Info</th>
         <th>
-            <label class="form-check-label" for="NetIdCheck"> Preferred Work Time </label>
-            <!-- <button type="button" class="btn btn-link" onclick = "sort(2)">↕</button> -->
+            <label> Preferred Work Time </label>
             <i class="fa fa-caret-up" id="button3" onclick=sort(3)></i>
         </th>
         {% for cour in courses %}
@@ -23,7 +22,6 @@
             <label>{{cour.CourseNumber}}</label>
         </th>
         {% endfor %}
-
     </tr>
     {% for i in data %}
         <tr>
@@ -59,10 +57,10 @@
             current = document.getElementById(j)
             if (current.checked==true) {
                 for (i = 1; i < rows.length; i++) {
-                        x = rows[i].getElementsByTagName("LABEL")[j-1];
-                        if (x.innerHTML=="") {
-                            rows[i].style.display="none";
-                        }
+                    x = rows[i].getElementsByTagName("LABEL")[j-1];
+                    if (x.innerHTML=="") {
+                        rows[i].style.display="none";
+                    }
                 }
             }
         }
