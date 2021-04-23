@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db import connection
 
 from .models import *
 from .forms import CreateUserForm
@@ -66,5 +67,22 @@ def profile(request, netid):
     if not (netid == request.user.username):
         return redirect('/error/' + netid)
     courses = Students.objects.raw("SELECT NetId, CourseNumber FROM Enrollment NATURAL JOIN Courses WHERE NetId = '" + netid + "'")
+    print("-----------------------here------------------------------")
+    helper(netid)
     students = Students.objects.raw("SELECT * FROM Students WHERE NetId = '" + netid + "'")
     return render(request, 'profile.html', {'courses':courses, 'students':students})
+
+def helper(netid):
+    cursor = connection.cursor()
+    
+    # query = 'select * from insuranceAgent'
+    # cursor.execute(query)
+    # resultList = cursor.fetchall()
+    # for r in resultList:
+    #     print(r)
+    arg = [netid]
+    cursor.callproc('test', arg)
+    print(cursor.fetchall())
+
+    print("Stored procedure is executed")
+    #connection.commit()
