@@ -91,8 +91,8 @@ def update_profile(request, netid):
     currentInstance = Students.objects.get(NetId=netid)
     form = StudentsForm(instance=currentInstance)
     if request.method == "POST":
-        print("-----------------------here--------------")
         print(request.POST)
+        # print(request.POST['courses'])
         form = StudentsForm(request.POST, instance=currentInstance)
         if form.is_valid():
             form.save()
