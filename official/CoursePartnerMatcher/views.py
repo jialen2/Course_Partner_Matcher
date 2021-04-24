@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.db import connection
 
 from .models import *
-from .forms import CreateUserForm
+from .forms import *
 
 def email_check(user):
     return user.username.endswith('@example.com')
@@ -67,7 +67,6 @@ def profile(request, netid):
     # if not (netid == request.user.username):
     #     return redirect('/error/' + netid)
     courses = Students.objects.raw("SELECT NetId, CourseNumber FROM Enrollment NATURAL JOIN Courses WHERE NetId = '" + netid + "'")
-    # print("-----------------------here------------------------------")
     # helper(netid)
     students = Students.objects.raw("SELECT * FROM Students WHERE NetId = '" + netid + "'")
     student_name = ""
@@ -85,6 +84,17 @@ def update_profile(request, netid):
     student_name = ""
     for student in students:
         student_name = student.FirstName + " " + student.LastName
+    
+    currentInstance = Students.objects.get(NetId=netid)
+    form = StudentsForm(instance=currentInstance)
+    if request.method == "POST":
+        print("-----------------------here--------------")
+        print(request.POST)
+        form = StudentsForm(request.POST, instance=currentInstance)
+        if form.is_valid():
+            form.save()
+            return redirect('/profile/' + netid)
+
     course_list = ""
     for i in courses:
         course_list += i.CourseNumber + ", "
@@ -94,7 +104,7 @@ def update_profile(request, netid):
     for i in tmp:
         if i.CourseNumber not in all_courses:
             all_courses.append(i.CourseNumber)
-    return render(request, 'update_profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, 'all_courses': all_courses})
+    return render(request, 'update_profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, 'all_courses': all_courses, 'form':form})
 
 def helper(netid):
     cursor = connection.cursor()
