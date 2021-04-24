@@ -93,14 +93,14 @@
                                     {% csrf_token %}
                                     
                                     {% for student in students %}
-                                    <div class="form-group"><label class="text-muted" for="exampleInputEmail1">NetId</label><input class="form-control" id="exampleInputEmail1" placeholder={{student.NetId}}></div>
-                                    <div class="form-group"><label class="text-muted" for="exampleInputPassword1">Preferred Work Time</label><input class="form-control" id="exampleInputPassword1" placeholder={{student.Preferred_Work_Time}} name="Preferred_Work_Time"></div>
-                                    <div class="form-group"><label class="text-muted" for="exampleInputPassword1">SchoolYear</label><input class="form-control" id="exampleInputPassword1" placeholder={{student.SchoolYear}}></div>
-                                    <div class="form-group"><label class="text-muted" for="exampleInputPassword1">ContactInfo</label><input class="form-control" id="exampleInputPassword1" placeholder={{student.ContactInfo}}></div>
+                                    <div class="form-group"><label class="text-muted" for="exampleInputEmail1">NetId</label><input class="form-control" id="exampleInputEmail1" name="NetId" value={{student.NetId}} placeholder={{student.NetId}}></div>
+                                    <div class="form-group"><label class="text-muted" for="exampleInputPassword1">Preferred Work Time</label><input class="form-control" id="exampleInputPassword1" value={{student.Preferred_Work_Time}} placeholder={{student.Preferred_Work_Time}} name="Preferred_Work_Time"></div>
+                                    <div class="form-group"><label class="text-muted" for="exampleInputPassword1">SchoolYear</label><input class="form-control" id="exampleInputPassword1" name="SchoolYear" value={{student.SchoolYear}} placeholder={{student.SchoolYear}}></div>
+                                    <div class="form-group"><label class="text-muted" for="exampleInputPassword1">ContactInfo</label><input class="form-control" id="exampleInputPassword1" name="ContactInfo" value={{student.ContactInfo}} placeholder={{student.ContactInfo}}></div>
                                     <div class="form-group" style="width: 100%;"><label class="text-muted" for="exampleInputPassword1">Course Taking</label>
-                                        <div class="row d-flex mt-100" style="margin-top: 0px;">
+                                        <div class="row d-flex mt-100" style="margin-top: 0px;" name="courses[]">
                                             <div class="col-md-12"> 
-                                                <select id="choices-multiple-remove-button" placeholder="Enter Courses Here" multiple>
+                                                <select class="form-control" id="choices-multiple-remove-button" name="courses[]" placeholder="Enter Courses Here" multiple>
                                                     {% for course in all_courses %}
                                                         <option value={{course}}>{{course.CourseNumber}}</option>
                                                     {% endfor %}
