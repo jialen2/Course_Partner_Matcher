@@ -15,10 +15,10 @@
         .mt-100 {
             margin-top: 100px
         }
-        .body {
+        /* .body {
             background-color: #ccffff;
             height: 3000px;
-        }
+        } */
         body {
             background-color: #f9f9fa
         }
@@ -95,10 +95,10 @@
                                     <div class="form-group"><label class="text-muted" for="exampleInputPassword1">Preferred Work Time</label><input class="form-control" id="exampleInputPassword1" placeholder={{student.Preferred_Work_Time}}></div>
                                     <div class="form-group"><label class="text-muted" for="exampleInputPassword1">SchoolYear</label><input class="form-control" id="exampleInputPassword1" placeholder={{student.SchoolYear}}></div>
                                     <div class="form-group"><label class="text-muted" for="exampleInputPassword1">ContactInfo</label><input class="form-control" id="exampleInputPassword1" placeholder={{student.ContactInfo}}></div>
-                                    <div class="form-group"><label class="text-muted" for="exampleInputPassword1">Course Taking</label>
-                                        <div class="row d-flex mt-100" style="margin-top: 0px; width: 1470px;">
-                                            <div class="col-md-6"> 
-                                                <select id="choices-multiple-remove-button" placeholder="" multiple>
+                                    <div class="form-group" style="width: 100%;"><label class="text-muted" for="exampleInputPassword1">Course Taking</label>
+                                        <div class="row d-flex mt-100" style="margin-top: 0px;">
+                                            <div class="col-md-12"> 
+                                                <select id="choices-multiple-remove-button" placeholder="Enter Courses Here" multiple>
                                                     {% for course in all_courses %}
                                                         <option value={{course}}>{{course.CourseNumber}}</option>
                                                     {% endfor %}
