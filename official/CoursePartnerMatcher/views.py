@@ -64,13 +64,37 @@ def query(request, netid):
     return render(request, 'query.html', {'data':data, 'courses':courses})
 
 def profile(request, netid):
-    if not (netid == request.user.username):
-        return redirect('/error/' + netid)
+    # if not (netid == request.user.username):
+    #     return redirect('/error/' + netid)
     courses = Students.objects.raw("SELECT NetId, CourseNumber FROM Enrollment NATURAL JOIN Courses WHERE NetId = '" + netid + "'")
-    print("-----------------------here------------------------------")
-    helper(netid)
+    # print("-----------------------here------------------------------")
+    # helper(netid)
     students = Students.objects.raw("SELECT * FROM Students WHERE NetId = '" + netid + "'")
-    return render(request, 'profile.html', {'courses':courses, 'students':students})
+    student_name = ""
+    for student in students:
+        student_name = student.FirstName + " " + student.LastName
+    course_list = ""
+    for i in courses:
+        course_list += i.CourseNumber + ", "
+    course_list = course_list[0: len(course_list) - 2]
+    return render(request, 'profile.html', {'courses':course_list, 'students':students, 'student_name': student_name})
+
+def update_profile(request, netid):
+    courses = Students.objects.raw("SELECT NetId, CourseNumber FROM Enrollment NATURAL JOIN Courses WHERE NetId = '" + netid + "'")
+    students = Students.objects.raw("SELECT * FROM Students WHERE NetId = '" + netid + "'")
+    student_name = ""
+    for student in students:
+        student_name = student.FirstName + " " + student.LastName
+    course_list = ""
+    for i in courses:
+        course_list += i.CourseNumber + ", "
+    course_list = course_list[0: len(course_list) - 2]
+    tmp = Courses.objects.raw("SELECT distinct CRN, CourseNumber FROM Courses")
+    all_courses = []
+    for i in tmp:
+        if i.CourseNumber not in all_courses:
+            all_courses.append(i.CourseNumber)
+    return render(request, 'update_profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, 'all_courses': all_courses})
 
 def helper(netid):
     cursor = connection.cursor()

@@ -8,5 +8,6 @@ urlpatterns = [
     path('register/', views.registerPage, name = "register"),
     path('login/', views.loginPage, name = "login"),
     path('logout/', views.logoutUser, name = "logout"),
-    path('result/', views.result, name = "result")
+    path('result/', views.result, name = "result"),
+    path('update_profile/<str:netid>/', views.update_profile, name = "update_profile")
 ]
