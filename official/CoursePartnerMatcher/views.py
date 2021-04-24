@@ -64,10 +64,9 @@ def query(request, netid):
     return render(request, 'query.html', {'data':data, 'courses':courses})
 
 def profile(request, netid):
-    # if not (netid == request.user.username):
-    #     return redirect('/error/' + netid)
+    if not (netid == request.user.username):
+        return redirect('/error/' + netid)
     courses = Students.objects.raw("SELECT NetId, CourseNumber FROM Enrollment NATURAL JOIN Courses WHERE NetId = '" + netid + "'")
-    # helper(netid)
     students = Students.objects.raw("SELECT * FROM Students WHERE NetId = '" + netid + "'")
     student_name = ""
     for student in students:
@@ -76,7 +75,11 @@ def profile(request, netid):
     for i in courses:
         course_list += i.CourseNumber + ", "
     course_list = course_list[0: len(course_list) - 2]
-    return render(request, 'profile.html', {'courses':course_list, 'students':students, 'student_name': student_name})
+    cursor = connection.cursor()
+    arg = [netid]
+    cursor.callproc('result', arg)
+    status = cursor.fetchone()[1]
+    return render(request, 'profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, "status": status})
 
 def update_profile(request, netid):
     courses = Students.objects.raw("SELECT NetId, CourseNumber FROM Enrollment NATURAL JOIN Courses WHERE NetId = '" + netid + "'")
@@ -105,18 +108,3 @@ def update_profile(request, netid):
         if i.CourseNumber not in all_courses:
             all_courses.append(i.CourseNumber)
     return render(request, 'update_profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, 'all_courses': all_courses, 'form':form})
-
-def helper(netid):
-    cursor = connection.cursor()
-    
-    # query = 'select * from insuranceAgent'
-    # cursor.execute(query)
-    # resultList = cursor.fetchall()
-    # for r in resultList:
-    #     print(r)
-    arg = [netid]
-    cursor.callproc('test', arg)
-    print(cursor.fetchall())
-
-    print("Stored procedure is executed")
-    #connection.commit()
