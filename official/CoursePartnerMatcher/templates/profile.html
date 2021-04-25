@@ -36,7 +36,15 @@
         .middle {
             height: 100px;
         }
-
+        .hide{
+            display: none;
+        }
+        #showtext:hover+.hide {
+            display: block;
+        }
+        .hide {
+        display: none;
+        }
         /* .whole {
             margin-bottom: 0;
             height: 3000px;
@@ -71,8 +79,15 @@
                         <p class="text">{{student.ContactInfo}}</p>
                         <p class="title">Course Taking:</p>
                         <p class="text">{{courses}}</p>
-                        <p class="title">Status:</p>
-                        <p class="text">{{status}}</p>
+                        <p class="title" >Status:</p>
+                        <p class="text" id="showtext">{{status}}
+                            <i class="fas fa-exclamation-circle" style="margin-left:5px"></i>
+                            <p class="hide" style="font-size:small;">
+                                <span style="color:#53d926">Good status: You have enrolled in at least 3 courses in your major and at least 1 other course(s).</span> <br>
+                                <span>Normal status: You have enrolled in at least 1 course(s) in your major and enrolled at least 4 courses in total.</span><br>
+                                <span style="color:red">Probation status: otherwise.</span>
+                            </p>
+                        </p>
                     </div>
                 </div>
             </div>
