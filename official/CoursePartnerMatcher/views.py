@@ -78,6 +78,10 @@ def profile(request, netid):
     course_list = course_list[0: len(course_list) - 2]
     return render(request, 'profile.html', {'courses':course_list, 'students':students, 'student_name': student_name})
 
+def update_courses(request):
+    print("here")
+    print(request.GET.get('NetId', None))
+
 def update_profile(request, netid):
     courses = Students.objects.raw("SELECT NetId, CourseNumber FROM Enrollment NATURAL JOIN Courses WHERE NetId = '" + netid + "'")
     students = Students.objects.raw("SELECT * FROM Students WHERE NetId = '" + netid + "'")
@@ -88,8 +92,6 @@ def update_profile(request, netid):
     currentInstance = Students.objects.get(NetId=netid)
     form = StudentsForm(instance=currentInstance)
     if request.method == "POST":
-        print(request.POST)
-        # print(request.POST['courses'])
         form = StudentsForm(request.POST, instance=currentInstance)
         if form.is_valid():
             form.save()

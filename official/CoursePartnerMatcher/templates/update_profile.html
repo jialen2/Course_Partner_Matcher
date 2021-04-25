@@ -6,9 +6,7 @@
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="test.css">
-    <script type="text/javascript" src="test.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
     <script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006273/BBBootstrap/choices.min.js?version=7.0.0"></script>
     <style>
@@ -73,9 +71,31 @@
         }
     </style>
     <script>
+        function update_course() {
+            var result = document.getElementById("NetId").value;
+            var courses = [];
+            $("#choices-multiple-remove-button :selected").each(function() {
+                courses.push(this.value);
+            });
+            alert("here");
+            $.ajax({
+                url: 'update_courses',
+                type: 'POST',
+                data: {
+                    'NetId': result,
+                    'courses': courses
+                },
+                dataType: 'json',
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + xhr.statusText
+                    alert('Error - ' + errorMessage);
+                }
+            })
+            alert("done");
+        }
         $(document).ready(function(){
             var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
-            removeItemButton: true,
+                removeItemButton: true
             });
         });
     </script>
@@ -89,24 +109,20 @@
                         <div class="card">
                             <div class="card-header"><strong>Update Profile</strong></div>
                             <div class="card-body">
-                                <form action="" method="POST">
+                                <form action="" method="POST" onsubmit="update_course()">
                                     {% csrf_token %}
                                     
                                     {% for student in students %}
-                                    <div class="form-group"><label class="text-muted" for="exampleInputEmail1">NetId</label><input class="form-control" id="exampleInputEmail1" name="NetId" value={{student.NetId}} placeholder={{student.NetId}}></div>
+                                    <div class="form-group"><label class="text-muted" for="exampleInputEmail1">NetId</label><input class="form-control" id="NetId" name="NetId" value={{student.NetId}} placeholder={{student.NetId}}></div>
                                     <div class="form-group"><label class="text-muted" for="exampleInputPassword1">Preferred Work Time</label><input class="form-control" id="exampleInputPassword1" value={{student.Preferred_Work_Time}} placeholder={{student.Preferred_Work_Time}} name="Preferred_Work_Time"></div>
                                     <div class="form-group"><label class="text-muted" for="exampleInputPassword1">SchoolYear</label><input class="form-control" id="exampleInputPassword1" name="SchoolYear" value={{student.SchoolYear}} placeholder={{student.SchoolYear}}></div>
                                     <div class="form-group"><label class="text-muted" for="exampleInputPassword1">ContactInfo</label><input class="form-control" id="exampleInputPassword1" name="ContactInfo" value={{student.ContactInfo}} placeholder={{student.ContactInfo}}></div>
                                     <div class="form-group" style="width: 100%;"><label class="text-muted" for="exampleInputPassword1">Course Taking</label>
-                                        <div class="row d-flex mt-100" style="margin-top: 0px;" name="courses[]">
-                                            <div class="col-md-12"> 
-                                                <select class="form-control" id="choices-multiple-remove-button" name="courses[]" placeholder="Enter Courses Here" multiple>
-                                                    {% for course in all_courses %}
-                                                        <option value={{course}}>{{course.CourseNumber}}</option>
-                                                    {% endfor %}
-                                                </select> 
-                                            </div>
-                                        </div>
+                                        <select class="form-control" id="choices-multiple-remove-button" name="courses" placeholder="Enter Courses Here" multiple="multiple">
+                                            {% for course in all_courses %}
+                                                <option value={{course}}>{{course}}</option>
+                                            {% endfor %}
+                                        </select> 
                                     </div>
                                     {% endfor %}
                                     <button type="submit" name="submit" class="btn btn-primary">Submit</button>
