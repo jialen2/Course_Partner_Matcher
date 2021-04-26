@@ -114,12 +114,13 @@
                                 <form action="" method="POST" onsubmit="update_course()">
                                     {% csrf_token %}
                                     {% for student in students %}
-                                    <div class="form-group"><label class="text-muted" for="exampleInputEmail1">NetId:</label><input class="form-control" id="NetId" name="NetId" value={{student.NetId}} placeholder={{student.NetId}}></div>
+                                    <div class="form-group"><label class="text-muted" for="exampleInputEmail1">FirstName:</label><input class="form-control" id="FirstName" name="FirstName" value="{{first_name}}" placeholder="{{first_name}}"></div>
+                                    <div class="form-group"><label class="text-muted" for="exampleInputEmail1">LastName:</label><input class="form-control" id="LastName" name="LastName" value="{{last_name}}" placeholder="{{last_name}}"></div>
                                     <div class="form-group"><label class="text-muted" for="exampleInputPassword1">Preferred Work Time:</label>
                                         <select class="form-control" name="Preferred_Work_Time">
-                                            <option value={{curr_time}} selected>{{curr_time}}</option>
+                                            <option value="{{curr_time}}" selected>{{curr_time}}</option>
                                             {% for time in time_list %}
-                                                <option value={{time}}>{{time}}</option>
+                                                <option value="{{time}}">{{time}}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -140,7 +141,7 @@
                                             {% for course in all_courses %}
                                                 <option value={{course}}>{{course}}</option>
                                             {% endfor %}
-                                        </select> 
+                                        </select>
                                     </div>
                                     {% endfor %}
                                     <button type="submit" name="submit" class="btn btn-primary">Submit</button>

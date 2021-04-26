@@ -108,13 +108,13 @@ def update_profile(request, netid):
     student_name = ""
     for student in students:
         student_name = student.FirstName + " " + student.LastName
-    
+        first_name = student.FirstName
+        last_name = student.LastName
     currentInstance = Students.objects.get(NetId=netid)
     form = StudentsForm(instance=currentInstance)
     if request.method == "POST":
         toUpdate = request.POST.copy()
-        toUpdate['FirstName'] = currentInstance.FirstName
-        toUpdate['LastName'] = currentInstance.LastName
+        toUpdate['NetId'] = currentInstance.NetId
         toUpdate['OtherInfo'] = currentInstance.OtherInfo
         form = StudentsForm(toUpdate, instance=currentInstance)
         if form.is_valid():
@@ -129,7 +129,7 @@ def update_profile(request, netid):
     tmp = Courses.objects.raw("SELECT distinct CRN, CourseNumber FROM Courses")
     year_list = ['freshman', 'sophomore', 'junior', 'senior', 'masters', 'PhD']
     time_list = ['early morning', 'morning', 'noon', 'afternoon', 'evening', 'late night']
-    
+
     curr_year = currentInstance.SchoolYear
     curr_time = currentInstance.Preferred_Work_Time
     for i in year_list:
@@ -142,12 +142,12 @@ def update_profile(request, netid):
     for i in tmp:
         if i.CourseNumber not in all_courses and i.CourseNumber not in curr_course:
             all_courses.append(i.CourseNumber)
-        
-    return render(request, 'update_profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, 'all_courses': all_courses, 'form':form, 'year_list': year_list, 'time_list': time_list, 'curr_year': curr_year, 'curr_time': curr_time, 'curr_course': curr_course})
+
+    return render(request, 'update_profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, 'first_name': first_name, 'last_name': last_name, 'all_courses': all_courses, 'form':form, 'year_list': year_list, 'time_list': time_list, 'curr_year': curr_year, 'curr_time': curr_time, 'curr_course': curr_course})
 
 def helper(netid):
     cursor = connection.cursor()
-    
+
     # query = 'select * from insuranceAgent'
     # cursor.execute(query)
     # resultList = cursor.fetchall()

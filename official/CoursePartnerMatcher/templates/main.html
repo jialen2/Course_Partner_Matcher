@@ -35,14 +35,20 @@
         <li class="nav-item">
         <span class="navbar-brand">Hello, {{request.user}}</span>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item">
+          <a class="navbar-brand" href="/profile/{{user.get_username}}">My Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="navbar-brand" href="/logout">Logout</a>
+        </li>
+        <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Settings</a>
         <div class="dropdown-menu" style="left:auto;right:0;margin-right:-10px;">
             <a class="dropdown-item" href="/profile/{{user.get_username}}">My Profile</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/logout">Logout</a>
         </div>
-      </li>
+      </li> -->
     </ul>
   </div>
 </nav>
