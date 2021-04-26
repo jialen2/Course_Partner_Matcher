@@ -79,8 +79,28 @@ def profile(request, netid):
     return render(request, 'profile.html', {'courses':course_list, 'students':students, 'student_name': student_name})
 
 def update_courses(request):
-    print("here")
-    print(request.GET.get('NetId', None))
+    netid = request.POST.get('NetId')
+    courses = request.POST.getlist('courses[]')
+    currentInstance = Enrollment.objects.filter(NetId=netid)
+    for i in currentInstance:
+        tmp = Courses.objects.raw("SELECT CRN, CourseNumber FROM Courses WHERE CRN = " + i.CRN)
+        for j in tmp:
+            if j.CourseNumber not in courses:
+                foundInstance = Enrollment.objects.get(NetId=netid, CRN = i.CRN)
+                foundInstance.delete()
+            else:
+                courses.remove(j.CourseNumber)
+    for i in courses:
+        tmp = Courses.objects.raw("SELECT c.CRN FROM Courses c WHERE c.CourseNumber = '" + i + "' LIMIT 1;")
+        for j in tmp:
+            toAdd = {'NetId': netid, 'CRN': j.CRN}
+            form = EnrollmentForm(toAdd)
+            if form.is_valid():
+                form.save()
+    return redirect('/profile/' + netid)
+
+
+
 
 def update_profile(request, netid):
     courses = Students.objects.raw("SELECT NetId, CourseNumber FROM Enrollment NATURAL JOIN Courses WHERE NetId = '" + netid + "'")
@@ -92,21 +112,38 @@ def update_profile(request, netid):
     currentInstance = Students.objects.get(NetId=netid)
     form = StudentsForm(instance=currentInstance)
     if request.method == "POST":
-        form = StudentsForm(request.POST, instance=currentInstance)
+        toUpdate = request.POST.copy()
+        toUpdate['FirstName'] = currentInstance.FirstName
+        toUpdate['LastName'] = currentInstance.LastName
+        toUpdate['OtherInfo'] = currentInstance.OtherInfo
+        form = StudentsForm(toUpdate, instance=currentInstance)
         if form.is_valid():
             form.save()
             return redirect('/profile/' + netid)
-
+    curr_course = []
     course_list = ""
     for i in courses:
+        curr_course.append(i.CourseNumber)
         course_list += i.CourseNumber + ", "
     course_list = course_list[0: len(course_list) - 2]
     tmp = Courses.objects.raw("SELECT distinct CRN, CourseNumber FROM Courses")
+    year_list = ['freshman', 'sophomore', 'junior', 'senior', 'masters', 'PhD']
+    time_list = ['early morning', 'morning', 'noon', 'afternoon', 'evening', 'late night']
+    
+    curr_year = currentInstance.SchoolYear
+    curr_time = currentInstance.Preferred_Work_Time
+    for i in year_list:
+        if i == curr_year:
+            year_list.remove(i)
+    for j in time_list:
+        if j == curr_time:
+            time_list.remove(j)
     all_courses = []
     for i in tmp:
-        if i.CourseNumber not in all_courses:
+        if i.CourseNumber not in all_courses and i.CourseNumber not in curr_course:
             all_courses.append(i.CourseNumber)
-    return render(request, 'update_profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, 'all_courses': all_courses, 'form':form})
+        
+    return render(request, 'update_profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, 'all_courses': all_courses, 'form':form, 'year_list': year_list, 'time_list': time_list, 'curr_year': curr_year, 'curr_time': curr_time, 'curr_course': curr_course})
 
 def helper(netid):
     cursor = connection.cursor()

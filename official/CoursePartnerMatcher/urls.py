@@ -10,5 +10,6 @@ urlpatterns = [
     path('logout/', views.logoutUser, name = "logout"),
     path('result/', views.result, name = "result"),
     path('update_profile/<str:netid>/', views.update_profile, name = "update_profile"),
-    path('update_courses/', views.update_courses, name = "update_courses")
+    path('update_courses/', views.update_courses, name = "update_courses"),
+    path('ajax/update_courses/', views.update_courses, name = "update_courses")
 ]
