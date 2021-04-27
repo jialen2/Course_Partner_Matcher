@@ -62,3 +62,10 @@ class Departments(models.Model):
     DeptPhone = models.CharField(max_length = 50)
     class Meta:
         db_table = "Departments"
+
+class Home(models.Model):
+    NetId = models.CharField(max_length=10, primary_key = True)
+    Department =  models.CharField(max_length=500, blank=True)
+    class Meta:
+        db_table = "Home"
+        unique_together = (("NetId", "Department"),)
