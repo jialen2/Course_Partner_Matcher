@@ -29,9 +29,24 @@ def registerPage(request):
     else:
         form = CreateUserForm()
         if request.method == 'POST':
+            toUpdate = request.POST.copy()
+            toUpdate.pop("username")
+            toUpdate.pop("password1")
+            toUpdate.pop("password2")
+            toUpdate["NetId"] = request.POST["username"]
+            toUpdate["FirstName"] = ''
+            toUpdate["LastName"] = ''
+            toUpdate["SchoolYear"] = 'senior'
+            toUpdate["Preferred_Work_Time"] = 'morning'
+            toUpdate["ContactInfo"] = ''
+            toUpdate["OtherInfo"] = ''
+            print(toUpdate)
+            print(request.POST)
+            form2 = StudentsForm(toUpdate)
             form = CreateUserForm(request.POST)
-            if form.is_valid():
+            if form.is_valid() and form2.is_valid():
                 form.save()
+                form2.save()
                 user = form.cleaned_data.get('username')
                 messages.success(request, 'Account was created for ' + user)
                 return redirect('/login')
@@ -85,7 +100,10 @@ def profile(request, netid):
     cursor = connection.cursor()
     arg = [netid]
     cursor.callproc('result', arg)
-    status = cursor.fetchone()[1]
+    if not cursor.fetchone():
+        status = "Not available"
+    else:
+        status = cursor.fetchone()[1]
     return render(request, 'profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, "status": status, "header_list": header_list})
 
 def update_courses(request):
