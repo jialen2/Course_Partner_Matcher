@@ -10,6 +10,10 @@ from django.db import connection
 from .models import *
 from .forms import *
 
+import random
+
+from .image import header
+
 def email_check(user):
     return user.username.endswith('@example.com')
 
@@ -63,7 +67,10 @@ def query(request, netid):
     courses = Students.objects.raw("SELECT NetId, CourseNumber FROM Enrollment NATURAL JOIN Courses WHERE NetId = '" + netid + "'")
     return render(request, 'query.html', {'data':data, 'courses':courses})
 
+
+
 def profile(request, netid):
+    header_link = random.choice(header)
     if not (netid == request.user.username):
         return redirect('/error/' + netid)
     courses = Students.objects.raw("SELECT NetId, CourseNumber FROM Enrollment NATURAL JOIN Courses WHERE NetId = '" + netid + "'")
@@ -75,7 +82,7 @@ def profile(request, netid):
     for i in courses:
         course_list += i.CourseNumber + ", "
     course_list = course_list[0: len(course_list) - 2]
-    return render(request, 'profile.html', {'courses':course_list, 'students':students, 'student_name': student_name})
+    return render(request, 'profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, 'header_link': header_link})
 
 def update_courses(request):
     netid = request.POST.get('NetId')
