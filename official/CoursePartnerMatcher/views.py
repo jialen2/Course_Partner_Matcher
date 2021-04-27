@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import connection
+from django.db import IntegrityError
 
 from .models import *
 from .forms import *
@@ -161,8 +162,11 @@ def update_profile(request, netid):
         form = StudentsForm(student, instance=currentInstance)
         form2 = HomeForm(home, instance=currentInstance2)
         if form.is_valid() and form2.is_valid():
-            form.save()
-            form2.save()
+            try:
+                form.save()
+                form2.save()
+            except IntegrityError as e:
+                return render(None, "error.html", {"message": e.__cause__})    
             return redirect('/profile/' + netid)
     curr_course = []
     course_list = ""
