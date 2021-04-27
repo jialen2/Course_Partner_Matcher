@@ -72,6 +72,7 @@ def query(request, netid):
 def profile(request, netid):
     if not (netid == request.user.username):
         return redirect('/error/' + netid)
+    header_list = random.choice(header)
     courses = Students.objects.raw("SELECT NetId, CourseNumber FROM Enrollment NATURAL JOIN Courses WHERE NetId = '" + netid + "'")
     students = Students.objects.raw("SELECT * FROM Students WHERE NetId = '" + netid + "'")
     student_name = ""
@@ -85,7 +86,7 @@ def profile(request, netid):
     arg = [netid]
     cursor.callproc('result', arg)
     status = cursor.fetchone()[1]
-    return render(request, 'profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, "status": status})
+    return render(request, 'profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, "status": status, "header_list": header_list})
 
 def update_courses(request):
     netid = request.POST.get('NetId')
