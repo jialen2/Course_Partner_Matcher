@@ -15,14 +15,10 @@ import random
 
 from .image import header
 
-def email_check(user):
-    return user.username.endswith('@example.com')
 
 def error(request, netid):
     return render(request, 'error.html', {'netid':netid})
 
-def result(request):
-    return render(request, 'main.html')
 
 def registerPage(request):
     if request.user.is_authenticated:
@@ -56,14 +52,14 @@ def registerPage(request):
                 form3.save()
                 user = form.cleaned_data.get('username')
                 messages.success(request, 'Account was created for ' + user)
-                return redirect('/login')
+                return redirect('/')
 
         context = {'form': form}
         return render(request, 'register.html', context)
 
 def loginPage(request):
     if request.user.is_authenticated:
-        return redirect('/')
+        return redirect('/home/' + request.user.username)
     else:
         if request.method == 'POST':
             username = request.POST.get('username')
@@ -79,7 +75,7 @@ def loginPage(request):
 
 def logoutUser(request):
     logout(request)
-    return redirect('/login')
+    return redirect('/')
 
 @login_required(login_url='login')
 def query(request, netid):
@@ -90,7 +86,7 @@ def query(request, netid):
     return render(request, 'query.html', {'data':data, 'courses':courses})
 
 
-
+@login_required(login_url='login')
 def profile(request, netid):
     if not (netid == request.user.username):
         return redirect('/error/' + netid)
@@ -138,7 +134,10 @@ def update_courses(request):
                 form.save()
     return redirect('/profile/' + netid)
 
+@login_required(login_url='login')
 def update_profile(request, netid):
+    if not (netid == request.user.username):
+        return redirect('/error/' + netid)
     courses = Students.objects.raw("SELECT NetId, CourseNumber FROM Enrollment NATURAL JOIN Courses WHERE NetId = '" + netid + "'")
     students = Students.objects.raw("SELECT * FROM Students WHERE NetId = '" + netid + "'")
     homes = Home.objects.raw("SELECT * FROM Home WHERE NetId = '" + netid + "'")
