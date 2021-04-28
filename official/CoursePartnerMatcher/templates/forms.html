@@ -1,0 +1,23 @@
+{% extends 'User/main.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <h2 style="text-align: center">{{ title }}</h2>
+    <div style="width: 30%; margin: 25px auto;">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% for i in fields %}
+                <div class="form-group">
+                    <input class="form-control" type="text" name= {{i}} placeholder={{i}}>
+                </div>
+            {% endfor %}
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block">Submit</button>
+            </div>
+        </form>
+        < a href=" ">Go Back</ a>
+    </div>
+</div>
+
+</div>
+{% endblock %}

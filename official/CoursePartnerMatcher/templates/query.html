@@ -1,0 +1,144 @@
+{% extends 'main.html'%}
+
+{% block content %}
+
+<h1 style="padding-left: 20px;">Course Partners</h1>
+<table class="table table-sm" id="myTable">
+    <tr>
+        <th></th>
+        <th>
+            <label> NetId </label>
+            <i class="fa fa-caret-up" id="button0" onclick=sort(0)></i>
+        </th>
+        <th>Contact Info</th>
+        <th>Other Info</th>
+        <th>
+            <label> Preferred Work Time </label>
+            <i class="fa fa-caret-up" id="button3" onclick=sort(3)></i>
+        </th>
+        {% for cour in courses %}
+        <th>
+            <input class="form-check-input" type="checkbox" id={{forloop.counter}} onchange=check() unchecked>
+            <label>{{cour.CourseNumber}}</label>
+        </th>
+        {% endfor %}
+    </tr>
+    {% for i in data %}
+        <tr>
+            <th></th>
+            <td>{{i.NetId}}</td>
+            <td>{{i.ContactInfo}}</td>
+            <td>{{i.OtherInfo}}</td>
+            <td>{{i.Preferred_Work_Time}}</td>
+            {% for j in courses %}
+            <td>
+                {% if j.CourseNumber in i.result %}
+                    <label> √ </label>
+                {% else %}
+                    <label></label>
+                {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+
+<script>
+    var isswitched = false;
+    function check() {
+        var table, rows;
+        table = document.getElementById("myTable");
+        cols = table.rows[0].cells.length;
+        rows=table.rows;
+        for (i = 1; i < rows.length; i++) {
+            rows[i].style.display="table-row";
+        }
+        for (j=1; j <= cols-4; j++){
+            current = document.getElementById(j)
+            if (current.checked==true) {
+                for (i = 1; i < rows.length; i++) {
+                    x = rows[i].getElementsByTagName("LABEL")[j-1];
+                    if (x.innerHTML=="") {
+                        rows[i].style.display="none";
+                    }
+                }
+            }
+        }
+    }
+
+    function sort(index) {
+        var up = document.getElementById("button"+index);
+        var table, rows, switching, i, x, y, shouldSwitch;
+        if (isswitched==false){
+            table = document.getElementById("myTable");
+            switching = true;
+            /*Make a loop that will continue until
+            no switching has been done:*/
+            while (switching) {
+                //start by saying: no switching is done:
+                switching = false;
+                rows = table.rows;
+                /*Loop through all table rows (except the
+                first, which contains table headers):*/
+                for (i = 1; i < (rows.length - 1); i++) {
+                    //start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /*Get the two elements you want to compare,
+                    one from current row and one from the next:*/
+                    x = rows[i].getElementsByTagName("TD")[index];
+                    y = rows[i + 1].getElementsByTagName("TD")[index];
+                    //check if the two rows should switch place:
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        //if so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    /*If a switch has been marked, make the switch
+                    and mark that a switch has been done:*/
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
+            }
+            isswitched = true;
+            up.className="fa fa-caret-down";
+        } else {
+            table = document.getElementById("myTable");
+            switching = true;
+            /*Make a loop that will continue until
+            no switching has been done:*/
+            while (switching) {
+                //start by saying: no switching is done:
+                switching = false;
+                rows = table.rows;
+                /*Loop through all table rows (except the
+                first, which contains table headers):*/
+                for (i = 1; i < (rows.length - 1); i++) {
+                    //start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /*Get the two elements you want to compare,
+                    one from current row and one from the next:*/
+                    x = rows[i].getElementsByTagName("TD")[index];
+                    y = rows[i + 1].getElementsByTagName("TD")[index];
+                    //check if the two rows should switch place:
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        //if so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    /*If a switch has been marked, make the switch
+                    and mark that a switch has been done:*/
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
+            }
+            isswitched = false;
+            up.className="fa fa-caret-up";
+        }
+    }
+</script>
+
+{% endblock %}

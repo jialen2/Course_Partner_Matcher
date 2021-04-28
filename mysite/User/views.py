@@ -66,6 +66,7 @@ def studentsCreate(request):
     form = StudentsForm()
     if request.method == "POST":
         form = StudentsForm(request.POST)
+        print(request.POST)
         if form.is_valid():
             form.save()
             return redirect('/students')

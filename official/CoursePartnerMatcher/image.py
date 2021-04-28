@@ -1,0 +1,4 @@
+i1 = "https://media.istockphoto.com/photos/female-portrait-icon-as-avatar-or-profile-picture-picture-id477333976?b=1&k=6&m=477333976&s=170667a&w=0&h=9dHk-S1AJ8BRZu0SWPOG0oQNWoJN0IKuSYEv7Hk64aM="
+i2 = "https://media.istockphoto.com/photos/businessman-silhouette-as-avatar-or-default-profile-picture-picture-id476085198?b=1&k=6&m=476085198&s=170667a&w=0&h=ZHUgkr2TYixVu_Nny3XpsfmTdInPtEp1-PpO9MuQwYM="
+i3 = "https://media.istockphoto.com/photos/businesswoman-icon-as-avatar-profile-picture-picture-id514585871?b=1&k=6&m=514585871&s=170667a&w=0&h=Wx-Ecx55Teqhvra94HYF2vfuxrMQUmixhGvLWT46Y0M="
+header = [i1, i2, i3]

@@ -1,0 +1,97 @@
+{% extends 'main.html'%}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/3.6.95/css/materialdesignicons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        .profile-head {
+            transform: translateY(5rem)
+        }
+
+        .cover {
+            background-color: black;
+            background-image: url(https://images.pexels.com/photos/631477/pexels-photo-631477.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500);
+            background-size: cover;
+            background-repeat: no-repeat
+        }
+        .text {
+            font-size: 17px;
+            color: black;
+        }
+        .title {
+            font-size: .875rem;
+            color: #6d6e71;
+            margin-bottom: 0.5rem;
+        }
+        .body {
+            /* background-color: #ccffff; */
+            padding-bottom: 0px;
+        }
+        .image {
+            margin-bottom: 2px;
+        }
+        .middle {
+            height: 100px;
+        }
+        #showtext:hover+.hide {
+            display: block;
+        }
+        .hide {
+        display: none;
+        }
+        /* .whole {
+            margin-bottom: 0;
+            height: 3000px;
+        } */
+    </style>
+</head>
+<div class="row py-5 px-4 body">
+    <div class="col-md-5 mx-auto whole">
+        {% for student in students %}
+            <div class="bg-white shadow rounded overflow-hidden">
+                <div class="px-4 pt-0 pb-4 cover">
+                    <div class="media align-items-end profile-head">
+                        <div class="profile mr-3"><img src="{{header_list}}" alt="..." width="130" class="rounded mb-2 img-thumbnail"><a href="{% url 'update_profile' netid=student.NetId %}" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a></div>
+                        <div class="media-body mb-5 text-white">
+                            <h4 class="mt-0 mb-0">{{student_name}}</h4>
+                            <p class="small mb-4"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-light p-4 d-flex justify-content-end text-center middle">
+                </div>
+                <div class="px-4 py-3 info">
+                    <h5 class="mb-0">Info</h5>
+                    <div class="p-4 rounded shadow-sm bg-light">
+                        <p class="title">NetId:</p>
+                        <p class="text">{{student.NetId}}</p>
+                        <p class="title">Department:</p>
+                        <p class="text">{{Department}}</p>
+                        <p class="title">Preferred Work Time:</p>
+                        <p class="text">{{student.Preferred_Work_Time}}</p>
+                        <p class="title">SchoolYear:</p>
+                        <p class="text">{{student.SchoolYear}}</p>
+                        <p class="title">ContactInfo:</p>
+                        <p class="text">{{student.ContactInfo}}</p>
+                        <p class="title">Course Taking:</p>
+                        <p class="text">{{courses}}</p>
+                        <p class="title" >Status:</p>
+                        <p class="text" id="showtext">{{status}}
+                            <i class="fas fa-exclamation-circle" style="margin-left:5px"></i>
+                            <p class="hide" style="font-size:small;">
+                                <span style="color:#53d926">Good status: You have enrolled in at least 3 courses in your major and at least 1 other course(s).</span> <br>
+                                <span>Normal status: You have enrolled in at least 1 course(s) in your major and enrolled at least 4 courses in total.</span><br>
+                                <span style="color:red">Probation status: otherwise.</span>
+                            </p>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
