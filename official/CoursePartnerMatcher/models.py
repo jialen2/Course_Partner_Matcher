@@ -39,12 +39,12 @@ class Students(models.Model):
     time = [('early morning', 'early morning'), ('morning', 'morning'), ('noon', 'noon'), ('afternoon', 'afternoon'), ('evening', 'evening'), ('late night', 'late night')]
     schoolyear = [('freshman', 'freshman'), ('sophomore', 'sophomore'), ('junior', 'junior'), ('senior', 'senior'), ('masters', 'masters'), ('PhD', 'PhD')]
     NetId = models.CharField(max_length = 10, primary_key = True)
-    FirstName = models.CharField(max_length = 50)
-    LastName = models.CharField(max_length = 50)
+    FirstName = models.CharField(max_length = 50, blank=True)
+    LastName = models.CharField(max_length = 50, blank=True)
     Preferred_Work_Time = models.CharField(max_length = 50, choices = time)
     SchoolYear = models.CharField(max_length = 50, choices=schoolyear)
-    ContactInfo = models.CharField(max_length = 255)
-    OtherInfo = models.CharField(max_length = 255)
+    ContactInfo = models.CharField(max_length = 255, blank=True)
+    OtherInfo = models.CharField(max_length = 255, blank=True)
     class Meta:
         db_table = "Students"
 
@@ -62,3 +62,10 @@ class Departments(models.Model):
     DeptPhone = models.CharField(max_length = 50)
     class Meta:
         db_table = "Departments"
+
+class Home(models.Model):
+    NetId = models.CharField(max_length=10, primary_key = True)
+    Department =  models.CharField(max_length=500, blank=True)
+    class Meta:
+        db_table = "Home"
+        unique_together = (("NetId", "Department"),)

@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import connection
+from django.db import IntegrityError
 
 from .models import *
 from .forms import *
@@ -14,14 +15,10 @@ import random
 
 from .image import header
 
-def email_check(user):
-    return user.username.endswith('@example.com')
 
 def error(request, netid):
     return render(request, 'error.html', {'netid':netid})
 
-def result(request):
-    return render(request, 'main.html')
 
 def registerPage(request):
     if request.user.is_authenticated:
@@ -29,32 +26,40 @@ def registerPage(request):
     else:
         form = CreateUserForm()
         if request.method == 'POST':
-            ano_form = request.POST.copy()
-            del ano_form['username']
-            del ano_form['password1']
-            del ano_form['password2']
-            ano_form['FirstName']= "David"
-            ano_form['LastName']= "Chang"
-            ano_form['Preferred_Work_Time'] = 'morning'
-            ano_form['ContactInfo'] = "jil"
-            ano_form['SchoolYear'] = 'freshman'
-            ano_form['OtherInfo'] = "jil"
-            print(ano_form)
+            student = request.POST.copy()
+            student.pop("username")
+            student.pop("password1")
+            student.pop("password2")
+            student["NetId"] = request.POST["username"]
+            student["FirstName"] = ''
+            student["LastName"] = ''
+            student["SchoolYear"] = 'senior'
+            student["Preferred_Work_Time"] = 'morning'
+            student["ContactInfo"] = ''
+            student["OtherInfo"] = ''
+            home = request.POST.copy()
+            home.pop("username")
+            home.pop("password1")
+            home.pop("password2")
+            home["NetId"] = request.POST["username"]
+            home["Department"] = "Computer Science"
             form = CreateUserForm(request.POST)
-            ano_form = StudentsForm(ano_form)
-            if form.is_valid() and ano_form.is_valid():
+            form2 = StudentsForm(student)
+            form3 = HomeForm(home)
+            if form.is_valid() and form2.is_valid() and form3.is_valid():
                 form.save()
-                ano_form.save()
+                form2.save()
+                form3.save()
                 user = form.cleaned_data.get('username')
                 messages.success(request, 'Account was created for ' + user)
-                return redirect('/login')
-            print("error")
+                return redirect('/')
+
         context = {'form': form}
         return render(request, 'register.html', context)
 
 def loginPage(request):
     if request.user.is_authenticated:
-        return redirect('/')
+        return redirect('/home/' + request.user.username)
     else:
         if request.method == 'POST':
             username = request.POST.get('username')
@@ -70,7 +75,7 @@ def loginPage(request):
 
 def logoutUser(request):
     logout(request)
-    return redirect('/login')
+    return redirect('/')
 
 @login_required(login_url='login')
 def query(request, netid):
@@ -81,13 +86,16 @@ def query(request, netid):
     return render(request, 'query.html', {'data':data, 'courses':courses})
 
 
-
+@login_required(login_url='login')
 def profile(request, netid):
     if not (netid == request.user.username):
         return redirect('/error/' + netid)
     header_list = random.choice(header)
     courses = Students.objects.raw("SELECT NetId, CourseNumber FROM Enrollment NATURAL JOIN Courses WHERE NetId = '" + netid + "'")
     students = Students.objects.raw("SELECT * FROM Students WHERE NetId = '" + netid + "'")
+    homes = Home.objects.raw("SELECT * FROM Home WHERE NetId = '" + netid + "'")
+    for home in homes:
+        Department = home.Department
     student_name = ""
     for student in students:
         student_name = student.FirstName + " " + student.LastName
@@ -98,8 +106,12 @@ def profile(request, netid):
     cursor = connection.cursor()
     arg = [netid]
     cursor.callproc('result', arg)
-    status = cursor.fetchone()[1]
-    return render(request, 'profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, "status": status, "header_list": header_list})
+    result = cursor.fetchone()
+    if result:
+        status = result[1]
+    else:
+        status = "Not available"
+    return render(request, 'profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, "status": status, "header_list": header_list, "Department":Department})
 
 def update_courses(request):
     netid = request.POST.get('NetId')
@@ -122,24 +134,38 @@ def update_courses(request):
                 form.save()
     return redirect('/profile/' + netid)
 
+@login_required(login_url='login')
 def update_profile(request, netid):
+    if not (netid == request.user.username):
+        return redirect('/error/' + netid)
     courses = Students.objects.raw("SELECT NetId, CourseNumber FROM Enrollment NATURAL JOIN Courses WHERE NetId = '" + netid + "'")
     students = Students.objects.raw("SELECT * FROM Students WHERE NetId = '" + netid + "'")
+    homes = Home.objects.raw("SELECT * FROM Home WHERE NetId = '" + netid + "'")
+    for home in homes:
+        Department = home.Department
     student_name = ""
     for student in students:
         student_name = student.FirstName + " " + student.LastName
         first_name = student.FirstName
         last_name = student.LastName
     currentInstance = Students.objects.get(NetId=netid)
+    currentInstance2 = Home.objects.get(NetId=netid)
     form = StudentsForm(instance=currentInstance)
+    form2 = HomeForm(instance=currentInstance2)
     if request.method == "POST":
-        toUpdate = request.POST.copy()
-        toUpdate['NetId'] = currentInstance.NetId
-        toUpdate['OtherInfo'] = currentInstance.OtherInfo
-        print(toUpdate)
-        form = StudentsForm(toUpdate, instance=currentInstance)
-        if form.is_valid():
-            form.save()
+        student = request.POST.copy()
+        student['NetId'] = currentInstance.NetId
+        student['OtherInfo'] = currentInstance.OtherInfo
+        home = request.POST.copy()
+        home['NetId'] = currentInstance.NetId
+        form = StudentsForm(student, instance=currentInstance)
+        form2 = HomeForm(home, instance=currentInstance2)
+        if form.is_valid() and form2.is_valid():
+            try:
+                form.save()
+                form2.save()
+            except IntegrityError as e:
+                return render(None, "foreign_key_error.html", {"message": request.POST['Department'], "netid":request.POST['NetId']})    
             return redirect('/profile/' + netid)
     curr_course = []
     course_list = ""
@@ -162,4 +188,4 @@ def update_profile(request, netid):
     for i in tmp:
         if i.CourseNumber not in all_courses and i.CourseNumber not in curr_course:
             all_courses.append(i.CourseNumber)
-    return render(request, 'update_profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, 'first_name': first_name, 'last_name': last_name, 'all_courses': all_courses, 'form':form, 'year_list': year_list, 'time_list': time_list, 'curr_year': curr_year, 'curr_time': curr_time, 'curr_course': curr_course})
+    return render(request, 'update_profile.html', {'courses':course_list, 'students':students, 'student_name': student_name, 'first_name': first_name, 'last_name': last_name, 'all_courses': all_courses, 'form':form, 'year_list': year_list, 'time_list': time_list, 'curr_year': curr_year, 'curr_time': curr_time, 'curr_course': curr_course, 'Department':Department})

@@ -2,15 +2,18 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Enrollment
-from .models import Courses
-from .models import LoginInfo
-from .models import Students
+from .models import *
+
 
 class CreateUserForm(UserCreationForm):
 	class Meta:
 		model = User
 		fields = ['username', 'password1', 'password2']
+
+class HomeForm(ModelForm):
+    class Meta:
+        model = Home
+        fields = ['NetId', 'Department']
 
 class EnrollmentForm(ModelForm):
     class Meta:
