@@ -29,13 +29,26 @@ def registerPage(request):
     else:
         form = CreateUserForm()
         if request.method == 'POST':
+            ano_form = request.POST.copy()
+            del ano_form['username']
+            del ano_form['password1']
+            del ano_form['password2']
+            ano_form['FirstName']= "David"
+            ano_form['LastName']= "Chang"
+            ano_form['Preferred_Work_Time'] = 'morning'
+            ano_form['ContactInfo'] = "jil"
+            ano_form['SchoolYear'] = 'freshman'
+            ano_form['OtherInfo'] = "jil"
+            print(ano_form)
             form = CreateUserForm(request.POST)
-            if form.is_valid():
+            ano_form = StudentsForm(ano_form)
+            if form.is_valid() and ano_form.is_valid():
                 form.save()
+                ano_form.save()
                 user = form.cleaned_data.get('username')
                 messages.success(request, 'Account was created for ' + user)
                 return redirect('/login')
-
+            print("error")
         context = {'form': form}
         return render(request, 'register.html', context)
 
@@ -123,6 +136,7 @@ def update_profile(request, netid):
         toUpdate = request.POST.copy()
         toUpdate['NetId'] = currentInstance.NetId
         toUpdate['OtherInfo'] = currentInstance.OtherInfo
+        print(toUpdate)
         form = StudentsForm(toUpdate, instance=currentInstance)
         if form.is_valid():
             form.save()
