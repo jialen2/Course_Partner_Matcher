@@ -166,7 +166,7 @@ def update_profile(request, netid):
                 form.save()
                 form2.save()
             except IntegrityError as e:
-                return render(None, "error.html", {"message": e.__cause__})    
+                return render(None, "foreign_key_error.html", {"message": request.POST['Department'], "netid":request.POST['NetId']})    
             return redirect('/profile/' + netid)
     curr_course = []
     course_list = ""
